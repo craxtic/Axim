@@ -11,10 +11,13 @@
  * file, You can obtain one at https://mozilla.org.
  */
 
-#include "bindings/scene.hh"
-#include "axim/animations/animation.h"
-#include "axim/config.h"
+// #include "bindings/scene.hh"
+#include <axim/config.h>
+#include <axim/scene/scene.h>
 
+using namespace axm;
+
+extern axm::Scene* scene;
 
 extern "C" {
 

@@ -11,7 +11,8 @@
  * file, You can obtain one at https://mozilla.org.
  */
 
-#include "axim/presenters/presenter.h"
+#include <axim/presenters/presenter.h>
+#include <axim/utils/utils.h>
 #include <axim/mobjects/mobject.h>
 #include <axim/mobjects/vmobject.h>
 #include <axim/scene/scene.h>
@@ -69,20 +70,19 @@ void Scene::add(const Mobject &&mobject) {
 }
 
 void Scene::play(Animation &animation) {
+
   this->push(&animation.get_mobject());
   
   float run_time = animation.get_run_time();
   float elapsed_time = 0.0f;
-
-  auto start_time = std::chrono::high_resolution_clock::now();
+  auto start_time = std::chrono::steady_clock::now();
 
   while (elapsed_time < run_time) {
-    auto current_time = std::chrono::high_resolution_clock::now();
+    auto current_time = std::chrono::steady_clock::now();
     
     std::chrono::duration<float> duration = current_time - start_time;
     elapsed_time = duration.count();
 
-    // Clamp alpha to 1.0 maximum so it never overshoots the end positions
     float alpha = elapsed_time / run_time;
     if (alpha > 1.0f) alpha = 1.0f;
 
@@ -90,34 +90,8 @@ void Scene::play(Animation &animation) {
 
     this->render_frame();
   }
+
 }
-
-// void Scene::play(Animation &animation) {
-
-//   this->push(&animation.get_mobject());
-//   int total_frames = this->frame_rate * animation.get_run_time();
-  
-//   // i64 us_per_frame = 1000000.0 / this->frame_rate;
-//   std::chrono::milliseconds frame_duration(1000000/this->frame_rate); 
-
-//   for(float f = 0; f < total_frames; f++){
-
-//     auto begin_time = std::chrono::high_resolution_clock::now(); 
-
-//     float alpha = f / total_frames;
-//     animation.interpolate(alpha);
-//     this->render_frame();
-
-//     auto end_time = std::chrono::high_resolution_clock::now();
-//     auto delta_time = begin_time - end_time;
-
-//     if(delta_time < frame_duration){
-//       std::this_thread::sleep_for(frame_duration - delta_time);
-//     }
-
-//   }
-
-// }
 
 
 void Scene::idle(float duration, bool *running) const {

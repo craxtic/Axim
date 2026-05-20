@@ -14,9 +14,14 @@
 #include <axim/mobjects/rect.h>
 
 #include "binding.hh"
-#include "bindings/mobjects.hh"
+// #include "bindings/mobjects.hh"
 
+using namespace axm;
 
-axm::Mobject* axm_Rect(vec2f a, vec2f b){
+extern "C" {
+
+AXIM_API_EXPORT Mobject* axm_Rect(vec2f a, vec2f b){
   return storage::construct<axm::Rect>(a, b);
+}
+
 }

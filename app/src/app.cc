@@ -12,6 +12,7 @@
  */
 
 #include "app.hh"
+#include "axim/utils/utils.h"
 
 
 
@@ -54,10 +55,11 @@ int run_app(const char* script_filepath, Settings &setting){
     
     std::cout << "reload" << std::endl;
     
-    
+    axm::Stopwatch stopwatch;
     if(luaL_dofile(lstate, script_filepath)){
       std::cerr << "Error: " << lua_tostring(lstate, -1) << std::endl;
     }
+    stopwatch.lap();
     
     scene->idle(-1, &previewing);
     
