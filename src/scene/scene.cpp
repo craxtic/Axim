@@ -11,13 +11,15 @@
  * file, You can obtain one at https://mozilla.org.
  */
 
-#include "axim/presenters/presenter.h"
+#include <axim/presenters/presenter.h>
+#include <axim/utils/utils.h>
 #include <axim/mobjects/mobject.h>
 #include <axim/mobjects/vmobject.h>
 #include <axim/scene/scene.h>
 #include <axim/utils/errors.h>
 
-#include <iostream>
+
+#include <chrono>
 
 namespace axm {
 
@@ -71,10 +73,21 @@ void Scene::play(Animation &animation) {
 
   this->push(&animation.get_mobject());
   
-  int total_frames = this->frame_rate * animation.get_run_time();
-  for(float f = 0; f < total_frames; f++){
-    float alpha = f / total_frames;
+  float run_time = animation.get_run_time();
+  float elapsed_time = 0.0f;
+  auto start_time = std::chrono::steady_clock::now();
+
+  while (elapsed_time < run_time) {
+    auto current_time = std::chrono::steady_clock::now();
+    
+    std::chrono::duration<float> duration = current_time - start_time;
+    elapsed_time = duration.count();
+
+    float alpha = elapsed_time / run_time;
+    if (alpha > 1.0f) alpha = 1.0f;
+
     animation.interpolate(alpha);
+
     this->render_frame();
   }
 

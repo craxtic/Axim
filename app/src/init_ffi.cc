@@ -44,7 +44,6 @@ void init_luajit_ffi_module(lua_State *lstate){
   lua_dir /= "?.lua";
 
 
-
   std::string load_script = std::format(R"(
     package.path = "{};" .. package.path
     require("axim.init")
@@ -62,6 +61,5 @@ static fs::path resolve_lua_dir(){
   if(env_path != NULL){
     return fs::path(env_path);
   }
-  std::cout << AXIM_LUA_DIR << std::endl;
   return fs::path(AXIM_LUA_DIR);
 }

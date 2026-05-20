@@ -16,8 +16,23 @@
 - [x] implement arena allocation `axim/core/allocator`
 - [x] impelment block (linked-list of allocator) `axim/core/cloud`
 
-
+---
 ## lua bindings
 - [x] move from `sol2` to `luajit ffi`
 - [x] bind `Mobject`, `VMobject`, `Rect`
-- [ ] bind `Shift` animation
+- [x] bind `Shift` animation
+
+### bugs.fix
+- [ ] pass null object from lua causes crash
+
+
+
+## Mobjects
+- [ ] `Polygon` : `VMobject`  
+  restructure `Rect` : `Polygon`
+- [ ] `TipableVM` : `VMobject`
+- [ ] `Line` : `TipableVM`
+- [ ] `Arc` : `TipableVM`
+- [ ] `Circle` : `Arc`
+- [ ] `SVG` : `VMobject`
+- [ ] `Text` :  `SVG`
