@@ -12,6 +12,7 @@
  */
 
 
+#include <SDL3/SDL_video.h>
 #include <include/core/SkColor.h>
 #include <include/core/SkColorSpace.h>
 #include <include/core/SkSurface.h>
@@ -28,10 +29,12 @@
 
 // #include <SDL3/SDL_init.h>
 #include <SDL3/SDL.h>
+#include <GL/gl.h>
 
 #include <axim/presenters/window.h>
 #include <axim/core/types/color.h>
 #include <axim/utils/errors.h>
+#include <iostream>
 
 
 
@@ -44,8 +47,9 @@ PreviewPresenter::PreviewPresenter(){
 
   SDL_Init(SDL_INIT_VIDEO);
   SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-  SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
+  SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 8);
   SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
+  SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
 
 
   window = SDL_CreateWindow(
@@ -73,6 +77,7 @@ void PreviewPresenter::make_current() {
 
 
 SkCanvas *PreviewPresenter::get_canvas(){
+  std::cout << "canvas" << std::endl;
   SDL_GL_SwapWindow(window);
   SDL_PumpEvents();
   int width, height;
@@ -84,7 +89,8 @@ SkCanvas *PreviewPresenter::get_canvas(){
 }
 
 void PreviewPresenter::present() const {
-  this->context->flush();
+  this->context->flush(this->surface.get());
+  this->context->submit();
   SDL_GL_SwapWindow(window);
 }
   
@@ -97,8 +103,10 @@ PreviewPresenter::~PreviewPresenter() {
   
 sk_sp<SkSurface>  PreviewPresenter::_create_sk_surface(int w, int h){
 
-  GrGLFramebufferInfo gl_info = {0, 0x8058};
-  GrBackendRenderTarget backend_rt = GrBackendRenderTargets::MakeGL(w, h, 0, 8, gl_info);
+  GrGLFramebufferInfo gl_info;
+  gl_info.fFBOID = 0;
+  gl_info.fFormat = GL_RGBA8;
+  GrBackendRenderTarget backend_rt = GrBackendRenderTargets::MakeGL(w, h, 1, 8, gl_info);
 
 
   // SkColorSpace color_space;

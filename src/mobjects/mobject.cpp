@@ -23,6 +23,8 @@ Mobject::Mobject(Color color, float z_index)
   this->paindex = mobcloud::init_new_paint();
   SkPaint &paint = mobcloud::get_paint_at(this->paindex);
   paint.setColor(color);
+  paint.setAntiAlias(true);
+  // paint.setStroke(true);
 
   /// TODO: handle z_index initialization
 }

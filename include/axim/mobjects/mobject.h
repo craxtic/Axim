@@ -78,7 +78,14 @@ protected:
 
   /// push a new point to the cloud
   /// this should be called in constructor of any Mobject
-  inline void push_point(vec3f point) { mobcloud::push_point(point); }
+  inline void push_point(const vec3f &point) { mobcloud::push_point(point); }
+
+  inline void push_cubic_points(const vec3f &p1, const vec3f &p2, const vec3f &p3, const vec3f &p4){
+    push_point(p1);
+    push_point(p2);
+    push_point(p3);
+    push_point(p4);
+  }
 
   /// set the point count of this mobject
   inline constexpr void set_pocount(u16 pocount) {

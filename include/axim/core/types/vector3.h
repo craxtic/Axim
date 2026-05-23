@@ -13,8 +13,11 @@
 
 #pragma once
 
+#include "axim/core/types/vector2.h"
 #include <ostream>
 #include <cmath>
+
+#include <axim/core/types/vector2.h>
 
 namespace axm {
 
@@ -42,6 +45,12 @@ template <typename T> struct vec3 {
   [[nodiscard]] constexpr vec3<T> unit() const{
     T norm = this->norm();
     return  vec3<T>(x/norm, y/norm, z/norm);
+  }
+
+
+
+  [[nodiscard]] constexpr operator vec2f() const {
+    return vec2f(x, y);
   }
 
 

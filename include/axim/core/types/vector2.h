@@ -13,6 +13,7 @@
 
 #pragma once
 
+#include <include/core/SkPoint.h>
 #include <ostream>
 #include <cmath>
 
@@ -54,6 +55,12 @@ template <typename T> struct vec2 {
     T norm = this->norm();
     return  vec2(x/norm, y/norm);
   }
+
+
+  [[nodiscard]] constexpr operator SkPoint(){
+    return SkPoint(x, y);
+  }
+
 
 };
 
