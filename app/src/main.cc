@@ -24,7 +24,7 @@ int main(int argc, char *argv[]) {
     return 1;
 
   Settings setting;
-  setting.background_color = axm::Color::Black;
+  setting.background_color = axm::Color::Green;
   setting.framesize.x = 1200; 
   setting.framesize.y = 800; 
 
@@ -35,6 +35,8 @@ int main(int argc, char *argv[]) {
   if (opt == '1') {
     setting.active_mode = Mode::Preview;
     setting.preview.framerate = 60;
+    setting.preview.dimensions = setting.framesize;
+
   } else if (opt == '2') {
     setting.active_mode = Mode::Export;
   } else

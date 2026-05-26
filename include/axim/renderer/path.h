@@ -13,12 +13,38 @@
 
 #pragma once
 
+#include "axim/renderer/renderer.h"
 #include <axim/config.h>
-#include <axim/core/types/vector2.h>
-#include <axim/core/types/vector3.h>
-#include <axim/core/types/color.h>
-#include <axim/engine/mobjects/mobject.h>
-#include <axim/engine/mobjects/vmobject.h>
-#include <axim/engine/mobjects/rect.h>
-#include <axim/engine/scene/scene.h>
-#include <axim/engine/animations/animation.h>
+#include <vector>
+
+namespace axm {
+  
+
+struct Brush {
+  Color color;
+};
+
+struct Pen {
+  Color color;
+  float stroke_width;
+};
+
+
+class AXIM_RENDERER_API BezierPath {
+
+public:
+  std::vector<vec2f> points;
+
+  BezierPath();
+
+  void move_to(vec2f p);
+  void line_to(vec2f p);
+  void cubic_to(vec2f c1, vec2f c2, vec2f p);
+  void curve_to(vec2f p);
+
+  void close();
+  void reset();
+
+};
+
+}

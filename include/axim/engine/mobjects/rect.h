@@ -11,17 +11,22 @@
  * file, You can obtain one at https://mozilla.org.
  */
 
-#include <axim/engine/mobjects/rect.h>
+#pragma once
 
-#include "binding.hh"
-// #include "bindings/mobjects.hh"
+#include <axim/core/types/vector2.h>
+#include <axim/engine/mobjects/vmobject.h>
 
-using namespace axm;
+namespace axm {
 
-extern "C" {
+class AXIM_ENGINE_API Rect : public VMobject {
 
-AXIM_API_EXPORT Mobject* axm_Rect(vec2f a, vec2f b){
-  return storage::construct<axm::Rect>(a, b);
-}
+public:
+  Rect() = default;
 
-}
+  Rect(vec2f p1, vec2f p2, Color fill_color = Color::White);
+
+  /// TODO: implement a full version of copy
+  [[nodiscard]] Mobject *copy(bool should_clone) const override;
+};
+
+} // namespace axm

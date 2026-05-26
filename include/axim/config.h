@@ -42,6 +42,16 @@
 
 #endif
 
+#if defined (AXIM_RENDERER_EXPORTS)
+
+#define AXIM_RENDERER_API AXIM_API_EXPORT
+
+#else
+
+#define AXIM_RENDERER_API AXIM_API_IMPORT
+
+#endif
+
 
 
 #if defined (AXIM_ENGINE_EXPORTS)

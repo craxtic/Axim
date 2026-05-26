@@ -11,23 +11,37 @@
  * file, You can obtain one at https://mozilla.org.
  */
 
-// #include "bindings/scene.hh"
+#pragma once
+
 #include <axim/config.h>
-#include <axim/engine/scene/scene.h>
+#include <filesystem>
+#include <string_view>
 
-using namespace axm;
+#ifndef AXIM_SHADERS_DIR
+#define AXIM_SHADERS_DIR ""
+#endif
 
-extern axm::Scene* scene;
+#define AXIM_SHADER_TRIANGLE_BINPATH "triangle.fr"
 
-extern "C" {
+namespace axm {
 
+struct ShaderPrograms;
+
+
+
+class AXIM_RENDERER_API Shader {
+
+public:
+  ShaderPrograms *programs;
+
+  Shader();
+
+  void load_builtin_shaders();
+  void destroy();
+
+
+private:
   
-AXIM_API_EXPORT void axm_scene_add(axm::Mobject* mobject){
-  scene->add(*mobject);
-}
-  
-AXIM_API_EXPORT void axm_scene_play(axm::Animation* animation){
-  scene->play(*animation);
-}
+};
 
-}
+} // namespace axm

@@ -16,7 +16,7 @@
 #include "axim/core/types/vector2.h"
 #include <lua.hpp>
 
-#include <axim/scene/scene.h>
+#include <axim/engine/scene/scene.h>
 
 
 extern axm::Scene* scene;

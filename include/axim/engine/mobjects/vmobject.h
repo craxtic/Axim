@@ -11,17 +11,21 @@
  * file, You can obtain one at https://mozilla.org.
  */
 
-#include <axim/engine/mobjects/rect.h>
+#pragma once
 
-#include "binding.hh"
-// #include "bindings/mobjects.hh"
+#include "axim/renderer/path.h"
+#include <axim/engine/mobjects/mobject.h>
 
-using namespace axm;
+namespace axm {
 
-extern "C" {
+class AXIM_ENGINE_API VMobject : public Mobject {
 
-AXIM_API_EXPORT Mobject* axm_Rect(vec2f a, vec2f b){
-  return storage::construct<axm::Rect>(a, b);
-}
+public:
+  VMobject() = default;
 
-}
+  VMobject(Color fill_color);
+
+  [[nodiscard]] BezierPath get_path() const override;
+};
+
+} // namespace axm

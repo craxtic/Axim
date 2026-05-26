@@ -11,17 +11,17 @@
  * file, You can obtain one at https://mozilla.org.
  */
 
-#include <axim/engine/mobjects/rect.h>
+#pragma once
 
-#include "binding.hh"
-// #include "bindings/mobjects.hh"
+#include <axim/core/cloud.h>
 
-using namespace axm;
+namespace axm::r_storage {
 
-extern "C" {
+inline static Cloud r_cloud{8192};
 
-AXIM_API_EXPORT Mobject* axm_Rect(vec2f a, vec2f b){
-  return storage::construct<axm::Rect>(a, b);
+template<typename T, typename...Args>
+inline T* construct(Args&&...args){
+  return r_cloud.construct<T>(std::forward<Args>(args)...);
 }
 
 }

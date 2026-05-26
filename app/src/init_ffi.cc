@@ -13,7 +13,7 @@
 
 #include "app.hh"
 #include <axim/config.h>
-#include <axim/scene/scene.h>
+#include <axim/engine/scene/scene.h>
 
 #include <cstdlib>
 #include <filesystem>

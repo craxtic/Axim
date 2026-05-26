@@ -11,14 +11,24 @@
  * file, You can obtain one at https://mozilla.org.
  */
 
-#pragma once
-
-#include <axim/config.h>
-#include <axim/core/types/vector2.h>
-#include <axim/core/types/vector3.h>
-#include <axim/core/types/color.h>
+#include <axim/engine/mobjects/mobcloud.h>
 #include <axim/engine/mobjects/mobject.h>
-#include <axim/engine/mobjects/vmobject.h>
-#include <axim/engine/mobjects/rect.h>
-#include <axim/engine/scene/scene.h>
-#include <axim/engine/animations/animation.h>
+#include <axim/renderer/path.h>
+
+namespace axm {
+
+Mobject::Mobject(Color color, float z_index)
+    : poindex(mobcloud::new_poindex()), z_index(z_index) {
+  
+  this->paindex = mobcloud::init_new_brush();
+  Brush &brush = mobcloud::get_brush_at(this->paindex);
+  brush.color = color;
+
+  /// TODO: handle z_index initialization
+}
+
+Mobject::~Mobject() {
+  
+}
+
+} // namespace axm

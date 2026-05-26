@@ -11,17 +11,16 @@
  * file, You can obtain one at https://mozilla.org.
  */
 
-#include <axim/engine/mobjects/rect.h>
+#include <axim/engine/mobjects/mobcloud.h>
+#include <axim/core/types/color.h>
 
-#include "binding.hh"
-// #include "bindings/mobjects.hh"
+namespace axm::mobcloud {
 
-using namespace axm;
+MobjectCloud::MobjectCloud(size_t init_mobcount, size_t std_pocount) {
 
-extern "C" {
-
-AXIM_API_EXPORT Mobject* axm_Rect(vec2f a, vec2f b){
-  return storage::construct<axm::Rect>(a, b);
-}
+  this->points.reserve(init_mobcount * std_pocount);
+  this->brushes.reserve(init_mobcount);
 
 }
+
+} // namespace axm

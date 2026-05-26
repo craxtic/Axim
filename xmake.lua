@@ -1,7 +1,9 @@
 add_rules("mode.debug", "mode.release")
 set_languages("c++23")
 
-add_requires("skia", {system = true}) -- require to manually install
+includes("xmake/bgfx_rules.lua")
+
+add_requires("bgfx")
 add_requires("libsdl3")
 add_requires("luajit")
 add_requires("catch2") 
@@ -13,14 +15,18 @@ add_includedirs("$(projectdir)/app/include")
 set_warnings("allextra")
 set_policy("build.warning", true)
 
-local function get_lua_ffi_dir() 
-  local lua_path = path.join(os.projectdir(), "lua")
-  if is_host("windows") then
-    return lua_path:gsub("\\", "\\\\")
-  else
-    return lua_path
-  end
-end
+-- local function format_path_for_defines(_define, _path) 
+--   -- local __path = path.join(os.projectdir(), "lua")
+--   if is_host("windows") then
+--     return _define .. '"' .. _path:gsub("\\", "\\\\") .. '"'
+--   else
+--     return _define .. '"' .. _path .. '"'
+--   end
+-- end
+
+-- ----
+
+
 
 
 --- @axim-core
@@ -32,17 +38,51 @@ target("axim-core") do
   add_files("src/core/**.cpp")
 end
 
+
+
+target("axim-shaders") do
+  set_kind("object")
+  add_rules("local.bgfx.shaders")
+  add_packages("bgfx")
+
+  add_files("src/renderer/shaders/**.frag")
+  add_files("src/renderer/shaders/**.vert")
+
+  add_includedirs("external/bgfx")
+
+end
+
+
+--- @axim-renderer
+target("axim-renderer") do
+  set_kind("shared")
+  set_symbols("hidden")
+  add_defines("AXIM_RENDERER_EXPORTS")
+  add_files("src/renderer/**.cpp")
+
+  add_deps("axim-shaders")
+  add_packages("bgfx")
+
+  after_load(function (target) 
+    local dep = target:dep("axim-shaders")
+    if dep then 
+      target:add("defines", 'AXIM_SHADERS_DIR="' .. dep:targetdir() .. '/shaders"')
+    end 
+    -- add_defines("AXIM_SHADERS_DIR=".. path.join(target:targetdir(), "shaders"))
+  end)
+
+end
+
+
 --- @axim-engine
 --- the rendering engine
 target("axim-engine") do
   set_kind("shared")
   set_symbols("hidden")
   add_defines("AXIM_ENGINE_EXPORTS")
-  add_files("src/animations/**.cpp")
-  add_files("src/mobjects/**.cpp")
-  add_files("src/scene/**.cpp")
+  add_files("src/engine/**.cpp")
   
-  add_packages("skia")
+  add_deps("axim-renderer")
 end
 
 
@@ -54,9 +94,9 @@ target("axim-presenters") do
   set_kind("shared")
   set_symbols("hidden")
   add_defines("AXIM_PRESENTER_EXPORTS")
-  add_files("src/presenters/**.cpp")
+  add_files("src/presenter/**.cpp")
   
-  add_packages("libsdl3", "skia")
+  add_packages("libsdl3")
 end
 
 
@@ -65,15 +105,15 @@ end
 target("axim") do 
   set_kind("binary")
   add_files("app/src/**.cc")
-  add_deps("axim-core", "axim-engine", "axim-presenters")
+  add_deps("axim-core", "axim-renderer", "axim-engine", "axim-presenters")
 
   if is_plat("linux", "bsd") then
     add_ldflags("-rdynamic", {force = true})
   end
 
-  add_packages("skia", "libsdl3", "luajit")
+  add_packages("libsdl3", "luajit")
 
-  add_defines("AXIM_LUA_DIR=" ..'"'.. get_lua_ffi_dir() .. '"')
+  add_defines("AXIM_LUA_DIR=\"$(projectdir)/lua\"")
 end
 
 

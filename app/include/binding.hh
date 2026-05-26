@@ -15,7 +15,7 @@
 
 #include <axim/config.h>
 #include <axim/core/cloud.h>
-#include <axim/mobjects/mobject.h>
+#include <axim/engine/mobjects/mobject.h>
 
 
 namespace storage {

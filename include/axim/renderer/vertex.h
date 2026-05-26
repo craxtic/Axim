@@ -13,12 +13,28 @@
 
 #pragma once
 
-#include <axim/config.h>
+#include <axim/core/types/color.h>
 #include <axim/core/types/vector2.h>
 #include <axim/core/types/vector3.h>
-#include <axim/core/types/color.h>
-#include <axim/engine/mobjects/mobject.h>
-#include <axim/engine/mobjects/vmobject.h>
-#include <axim/engine/mobjects/rect.h>
-#include <axim/engine/scene/scene.h>
-#include <axim/engine/animations/animation.h>
+#include <vector>
+
+namespace axm {
+
+struct Vertex {
+  vec3f pos;
+  Color color;
+
+  Vertex(vec2f pos2d, Color color):
+    pos(pos2d.x, pos2d.y, 0),
+    color(color)
+  {}
+
+  Vertex(const vec3f& pos, Color color):
+    pos(pos.x, pos.y, pos.z),
+    color(color)
+  {}
+ 
+};
+
+
+}

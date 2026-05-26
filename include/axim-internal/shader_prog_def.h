@@ -11,17 +11,15 @@
  * file, You can obtain one at https://mozilla.org.
  */
 
-#include <axim/engine/mobjects/rect.h>
+#pragma once
 
-#include "binding.hh"
-// #include "bindings/mobjects.hh"
+#include <bgfx/bgfx.h>
 
-using namespace axm;
+namespace axm {
 
-extern "C" {
 
-AXIM_API_EXPORT Mobject* axm_Rect(vec2f a, vec2f b){
-  return storage::construct<axm::Rect>(a, b);
-}
+struct ShaderPrograms {
+  bgfx::ProgramHandle triangle;
+};
 
 }

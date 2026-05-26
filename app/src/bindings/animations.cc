@@ -12,7 +12,7 @@
  */
 
 // #include "bindings/animations.hh"
-#include <axim/animations/shift.h>
+#include <axim/engine/animations/shift.h>
 #include "binding.hh"
 
 using namespace axm;
