@@ -14,6 +14,9 @@
 #include "axim/core/types/vector2.h"
 #include <axim/core/beziercurve.h>
 #include <axim/renderer/canvas.h>
+#include <cmath>
+#include <iostream>
+#include <iterator>
 
 namespace axm {
 
@@ -22,30 +25,29 @@ void Canvas::clear() {
   this->indices.clear();
 }
 
-void Canvas::draw_cubic_stroke(vec2f p1, vec2f p2, vec2f p3, vec2f p4,
-                               float thickness, Color color) {
+void Canvas::draw_quadratic_bezier_stroke(vec2f p0, vec2f p1, vec2f p2, float thickness, Color color) {
 
+  // {-0.5, -0.5}, {0.5, -0.5}, {0.0, 0.5}
+  // vertices.push_back({p0, color});
+  vec2f p[] = {
+    { 0.6f,  0.5f},
+    { -0.6f, 0.3f},
+    { 0.0f, -0.8f},
+  };
 
-  vec2f a = p1, b = p2;
-  vec2f v = b - a;
-  vec2f n = v.unit().normal();
+  vertices.push_back( {p[0], color});
+  vertices.push_back({p[1],  color});
+  vertices.push_back({p[2],  color});
+  
 
-  vec2f r = (thickness / 2.0f) * n;
+  indices.push_back(0);
+  indices.push_back(1);
+  indices.push_back(2);
+  
+  // indices.push_back(0);
+  // indices.push_back(3);
+  // indices.push_back(2);
 
-  size_t baseindex = vertices.size();
-
-  vertices.push_back({a + r, color});
-  vertices.push_back({a - r, color});
-  vertices.push_back({b - r, color});
-  vertices.push_back({b + r, color});
-
-  indices.push_back(baseindex + 0);
-  indices.push_back(baseindex + 1);
-  indices.push_back(baseindex + 2);
-
-  indices.push_back(baseindex + 0);
-  indices.push_back(baseindex + 2);
-  indices.push_back(baseindex + 3);
 }
 
 void Canvas::draw_path(const BezierPath &path, const Brush &brush) const {}

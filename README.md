@@ -12,7 +12,7 @@ Axim provides the tools to turn abstract concepts in your imagination into an ab
 ---
 
 ### Mission
-To provide a high-performance, programmable motion graphics framework that unites the performance of C++ with the expressive agility of Lua. By leveraging Skia’s world-class 2D vector engine and FFmpeg’s encoding power, Axim allows developers to build mathematically precise, general-purpose animations through a streamlined, scriptable workflow.
+To provide a high-performance, programmable motion graphics framework that unites the performance of C++ with the expressive agility of Lua. By leveraging a custom 2D vector engine and FFmpeg’s encoding power, Axim allows developers to build mathematically precise, general-purpose animations through a streamlined, scriptable workflow.
 
 ---
 
@@ -20,7 +20,7 @@ To provide a high-performance, programmable motion graphics framework that unite
 * **Scripting**: Lua integration for rapid animating and creative live-coding.
 * **Preview**: SDL3 for a responsive, real-time visual feedback window.
 * **Export**: FFmpeg pipeline for high-fidelity video encoding.
-* **Rendering**: Skia for hardware-accelerated, professional-grade vector graphics.
+* **Rendering**: A custom rendering engine built on top of BGFX for hardware-accelerated.
 * **Core**: A custom C++ library built for motion, easing, and geometry.
 
 ---

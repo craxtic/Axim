@@ -13,6 +13,7 @@
 
 #pragma once
 
+#include <axim/core/types/ctype.h>
 #include <axim/core/types/color.h>
 #include <axim/core/types/vector2.h>
 #include <axim/core/types/vector3.h>
@@ -30,7 +31,7 @@ struct Vertex {
   {}
 
   Vertex(const vec3f& pos, Color color):
-    pos(pos.x, pos.y, pos.z),
+    pos(pos),
     color(color)
   {}
  

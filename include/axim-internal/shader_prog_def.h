@@ -20,6 +20,9 @@ namespace axm {
 
 struct ShaderPrograms {
   bgfx::ProgramHandle triangle;
+  bgfx::ProgramHandle curve;
 };
+
+
 
 }

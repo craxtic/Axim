@@ -24,8 +24,8 @@ int main(int argc, char *argv[]) {
     return 1;
 
   Settings setting;
-  setting.background_color = axm::Color::Green;
-  setting.framesize.x = 1200; 
+  setting.background_color = axm::Color(0xff303030);
+  setting.framesize.x = 1200;
   setting.framesize.y = 800; 
 
   char opt;

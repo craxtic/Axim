@@ -14,13 +14,10 @@
 
 #include "axim/core/types/vector2.h"
 #include "axim/renderer/path.h"
-#include <include/core/SkPath.h>
-#include <include/core/SkPathBuilder.h>
 
 #include <axim/core/types/color.h>
 #include <axim/core/types/vector3.h>
 #include <axim/engine/mobjects/vmobject.h>
-#include <include/private/base/SkPoint_impl.h>
 #include <iostream>
 
 namespace axm {

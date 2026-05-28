@@ -15,7 +15,6 @@
 
 #include <axim/core/types/ctype.h>
 
-#include <include/core/SkColor.h>
 #include <ostream>
 
 namespace axm {
@@ -41,7 +40,6 @@ struct Color {
   // [[nodiscard]] constexpr const u8 &operator[](int i) const { return data[i];
   // }
 
-  // skia mapping
   [[nodiscard]] constexpr operator u32() const { return rgba; }
 
   static const Color Black;       // Black predefined color

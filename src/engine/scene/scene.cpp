@@ -44,7 +44,8 @@ void Scene::render_frame() const {
     // this->canvas->drawPath(mobject->get_path(), mobject->get_paint());
     // canvas->draw_path(mobject->get_path(), mobject->get_brush());
   }
-  canvas->draw_cubic_stroke({-0.5, -0.5}, {0.5, 0.5}, {}, {}, 0.02, Color::Yellow);
+
+  canvas->draw_quadratic_bezier_stroke({-0.5, -0.5}, {0.5, -0.5}, {0.0, 0.5}, 0.02, Color::Yellow);
   
   this->presenter->present(*canvas);
   return;

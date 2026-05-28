@@ -41,10 +41,15 @@ void Shader::load_builtin_shaders(){
   vsh = create_shader_handle_from(AXIM_SHADERS_DIR "/triangle.vert.bin");
   fsh = create_shader_handle_from(AXIM_SHADERS_DIR "/triangle.frag.bin");
   programs->triangle = bgfx::createProgram(vsh, fsh, true);
+  
+  vsh = create_shader_handle_from(AXIM_SHADERS_DIR "/curve.vert.bin");
+  fsh = create_shader_handle_from(AXIM_SHADERS_DIR "/curve.frag.bin");
+  programs->curve = bgfx::createProgram(vsh, fsh, true);
 }
 
 void Shader::destroy(){
   bgfx::destroy(programs->triangle);
+  bgfx::destroy(programs->curve);
 }
 
 

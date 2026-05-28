@@ -13,7 +13,6 @@
 
 #pragma once
 
-#include <include/core/SkPoint.h>
 #include <ostream>
 #include <cmath>
 
@@ -57,9 +56,6 @@ template <typename T> struct vec2 {
   }
 
 
-  [[nodiscard]] constexpr operator SkPoint(){
-    return SkPoint(x, y);
-  }
 
 
 };

@@ -14,9 +14,6 @@
 #include <axim/presenter/export.h>
 #include <cstdio>
 #include <format>
-#include <include/core/SkImageInfo.h>
-#include <include/core/SkPixmap.h>
-#include <include/core/SkSurface.h>
 #include <string_view>
 
 
@@ -38,10 +35,7 @@ namespace axm {
 ExportPresenter::ExportPresenter(vec2i dimensions, std::string_view output_filename): dimensions(dimensions){
 
 
-  // this->surface = SkSurfaces::Raster(SkImageInfo::MakeN32Premul(dimensions.x, dimensions.y));
-  //  if (!surface) {
-        // throw std::runtime_error("Could not create Skia surface. Check dimensions.");
-  // }
+
 
   /*
   
@@ -66,10 +60,7 @@ void ExportPresenter::clear(Color color){
 
 /// display the drawn buffer to the output
 void ExportPresenter::present(const Canvas& canvas) const {
-  // SkPixmap pixmap;
-  // if(this->surface->peekPixels(&pixmap)){
-  //   fwrite(pixmap.addr(), 1, pixmap.computeByteSize(), this->ffmpeg);
-  // }
+  
 }
 
 /// pause

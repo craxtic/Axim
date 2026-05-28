@@ -46,6 +46,7 @@ public:
   void clear(Color color);
   void reset(u32 backbuffer_width, u32 backbuffer_height);
   void submit(const std::vector<Vertex>& vertices, const std::vector<u16>& indices);
+  // void submit(const std::vector<CVertex>& c_vertices, const std::vector<u16>& indices);
   void present();
 
 

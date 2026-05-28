@@ -14,7 +14,6 @@
 #include "axim/core/types/vector2.h"
 #include <axim/config.h>
 #include <axim/presenter/presenter.h>
-#include <include/core/SkSurface.h>
 #include <cstdio>
 
 
@@ -25,7 +24,6 @@ namespace axm {
 
 class AXIM_PRESENTER_API ExportPresenter : public PresenterInterface {
 
-  // sk_sp<SkSurface> surface;
   FILE* ffmpeg;
   vec2i dimensions;
 
@@ -36,8 +34,6 @@ public:
 
   virtual void clear(Color color) override;
 
-  /// get a new canvas from this presenter
-  // virtual SkCanvas *get_canvas() override;
 
   /// display the drawn buffer to the output
   virtual void present(const Canvas& canvas) const override;

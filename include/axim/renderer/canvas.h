@@ -48,7 +48,7 @@ public:
   }
   
   void clear();
-  void draw_cubic_stroke(vec2f p1, vec2f p2, vec2f p3, vec2f p4, float thickness, Color color);
+  void draw_quadratic_bezier_stroke(vec2f p0, vec2f p1, vec2f p2, float thickness, Color color);
   void draw_path(const BezierPath& path, const Brush& brush) const;
   void draw_path(const BezierPath& path, const Pen& pen) const;
 

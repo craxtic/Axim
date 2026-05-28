@@ -1,4 +1,4 @@
-Skia - Copyright (c) 2011 Google Inc. All rights reserved - BSD 3-Clause license
+bgfx - Copyright 2010-2026 Branimir Karadzic
 
 SDL3 - Copyright (c) 1997-2024 Sam Lantinga <slouken@libsdl.org> - zlib license
 
