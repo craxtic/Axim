@@ -26,28 +26,29 @@
 
 namespace axm {
 
-Scene::Scene(u8 frame_rate, Canvas* canvas, PresenterInterface* presenter)
-    : presenter(presenter), canvas(canvas), frame_rate(frame_rate){
+Scene::Scene(u8 frame_rate, PresenterInterface* presenter)
+    : presenter(presenter), frame_rate(frame_rate){
 
   
   this->mobjects.reserve(MOBJECT_COUNT_PER_SCENE_PROBABLY);
   
   if(presenter == nullptr) 
-    presenter = new PreviewPresenter(1000, 800);
+    this->presenter = new PreviewPresenter(1000, 800, Color::Black);
+  this->canvas = this->presenter->get_canvas();
+  this->presenter->clear();
+  this->presenter->present();
 }
 
 void Scene::render_frame() const {
-  this->canvas->clear();
-  this->presenter->clear(canvas->bg_color);
+  this->presenter->clear();
   
   for (const Mobject *mobject : this->mobjects) {
-    // this->canvas->drawPath(mobject->get_path(), mobject->get_paint());
     // canvas->draw_path(mobject->get_path(), mobject->get_brush());
   }
 
   canvas->draw_quadratic_bezier_stroke({-0.5, -0.5}, {0.5, -0.5}, {0.0, 0.5}, 0.02, Color::Yellow);
   
-  this->presenter->present(*canvas);
+  this->presenter->present();
   return;
 }
 
@@ -56,6 +57,7 @@ void Scene::set_presenter(PresenterInterface *presenter) {
     return;
 
   this->presenter = presenter;
+  this->canvas = presenter->get_canvas();
   return;
 }
 

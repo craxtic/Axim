@@ -58,6 +58,7 @@ target("axim-renderer") do
   set_kind("shared")
   set_symbols("hidden")
   add_defines("AXIM_RENDERER_EXPORTS")
+  add_defines("BX_CONFIG_DEBUG")
   add_files("src/renderer/**.cpp")
 
   add_deps("axim-shaders")

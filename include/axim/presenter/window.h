@@ -25,14 +25,16 @@ namespace axm {
 class AXIM_PRESENTER_API PreviewPresenter : public PresenterInterface {
   SDL_Window *window;
   Renderer *renderer;
+  Canvas *canvas;
 
 public:
-  PreviewPresenter(u32 width, u32 height);
+  PreviewPresenter(u32 width, u32 height, Color bg_color);
 
-  void present(const Canvas& canvas) const override;
+  void present() const override;
 
-  void clear(Color color) override;
+  void clear() override;
   
+  Canvas* get_canvas() override;
 
   /// keep window alive and wait for window close event
   void idle(int duration, bool *running) const override;

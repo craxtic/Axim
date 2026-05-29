@@ -14,6 +14,7 @@
 
 #include "axim/renderer/canvas.h"
 #include "axim/renderer/renderer.h"
+#include <SDL3/SDL_events.h>
 #include <SDL3/SDL_platform.h>
 #include <SDL3/SDL_properties.h>
 #include <SDL3/SDL_stdinc.h>
@@ -26,6 +27,7 @@
 #include <axim/presenter/window.h>
 #include <axim/core/types/color.h>
 #include <axim/utils/errors.h>
+#include <functional>
 #include <iostream>
 
 
@@ -35,7 +37,7 @@
 namespace axm {
 
   
-PreviewPresenter::PreviewPresenter(u32 width, u32 height){
+PreviewPresenter::PreviewPresenter(u32 width, u32 height, Color bg_color){
 
   SDL_Init(SDL_INIT_VIDEO);
 
@@ -73,27 +75,39 @@ PreviewPresenter::PreviewPresenter(u32 width, u32 height){
     ndt = nullptr;
   #endif
 
+  // SDL_PumpEvents();
+  SDL_SyncWindow(window);
 
-  this->renderer = new Renderer(width, height, nwh, ndt);
+  int w, h;
+  SDL_GetWindowSizeInPixels(window, &w, &h);
+  std::cout << width << "*" << height << std::endl;
+  std::cout << w << "x" << h << std::endl;
+  this->renderer = new Renderer(w, h, nwh, ndt);
+  this->canvas = new Canvas(w, h, bg_color);
 
   return;
 }
 
-void PreviewPresenter::clear(Color color) {
-  this->renderer->clear(color);
+void PreviewPresenter::clear() {
+  this->canvas->clear();
+  this->renderer->clear(canvas->bg_color);
 };
 
 
-void PreviewPresenter::present(const Canvas& canvas) const {
-  this->renderer->submit(canvas.get_vertices(), canvas.get_indices());
+void PreviewPresenter::present() const {
+  this->renderer->submit(canvas->get_vertices(), canvas->get_indices());
   this->renderer->present();
 }
   
 PreviewPresenter::~PreviewPresenter(){
   delete this->renderer;
+  delete this->canvas;
   SDL_DestroyWindow(window);
 }
  
+Canvas* PreviewPresenter::get_canvas(){
+  return this->canvas;
+}
 
 /// TODO: handle the event with a proper window id
 void PreviewPresenter::idle(int duration, bool *running) const {
@@ -107,8 +121,18 @@ void PreviewPresenter::idle(int duration, bool *running) const {
     switch (event.type) {
       
       case SDL_EVENT_QUIT: if(running) *running = false; return;
+      break;
       case SDL_EVENT_KEY_DOWN:
         if(event.key.key == SDLK_R) return;
+      break;
+      case SDL_EVENT_WINDOW_RESIZED:
+        std::cout << "get resized" << std::endl;
+        int w, h;
+        SDL_GetWindowSizeInPixels(this->window, &w, &h);
+        canvas->reset(w, h);
+        renderer->reset(w, h);
+        // renderer->clear(canvas->bg_color);
+        this->present();
       break;
     }
   

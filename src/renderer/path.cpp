@@ -22,7 +22,7 @@ BezierPath::BezierPath(){
 }
 
 void BezierPath::move_to(vec2f p){
-
+  // this->points.
 }
 
 void BezierPath::line_to(vec2f p){

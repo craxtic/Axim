@@ -12,7 +12,6 @@
  */
 
 #include "app.hh"
-#include "axim/renderer/canvas.h"
 #include "axim/utils/utils.h"
 
 
@@ -33,28 +32,19 @@ static axm::PresenterInterface *get_presenter(Settings &setting){
   
   switch (setting.active_mode) {
     case Mode::Preview:
-      return new axm::PreviewPresenter(setting.preview.dimensions.x, setting.preview.dimensions.x);
+      return new axm::PreviewPresenter(setting.preview.dimensions.x, setting.preview.dimensions.y, setting.background_color);
     case Mode::Export:
       return new axm::ExportPresenter(setting.output.resolution, "output.mp4");
   }
 
 }
 
-static axm::Canvas* get_canvas(Settings& setting){
-  switch (setting.active_mode) {
-    case Mode::Preview:
-      return new axm::Canvas(setting.preview.dimensions.x, setting.preview.dimensions.y, setting.background_color);
-    case Mode::Export:
-      return new axm::Canvas(setting.output.resolution.x, setting.output.resolution.y, setting.background_color);
-  }
-}
 
 int run_app(const char* script_filepath, Settings &setting){
 
   axm::PresenterInterface *presenter = get_presenter(setting);
-  axm::Canvas* canvas = get_canvas(setting);
 
-  scene = new axm::Scene(60, canvas, presenter);
+  scene = new axm::Scene(60, presenter);
 
   lua_State *lstate = luaL_newstate();
   luaL_openlibs(lstate);

@@ -16,18 +16,21 @@
 #include "axim/config.h"
 #include <axim/renderer/canvas.h>
 #include <axim/core/types/color.h>
+#include <functional>
 
 namespace axm {
 
 class AXIM_PRESENTER_API PresenterInterface {
 
 public:
+
   virtual ~PresenterInterface() = default;
 
-  virtual void clear(Color color) = 0;
+  virtual void clear() = 0;
 
+  virtual Canvas* get_canvas() = 0;
   /// display the drawn buffer to the output
-  virtual void present(const Canvas& canvas) const = 0;
+  virtual void present() const = 0;
 
   /// pause
   /// TODO: introduce a new param to accept the idling duration

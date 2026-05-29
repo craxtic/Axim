@@ -32,12 +32,13 @@ public:
   ExportPresenter(vec2i dimensions, std::string_view output_filename);
   ~ExportPresenter();
 
-  virtual void clear(Color color) override;
+  virtual void clear() override;
 
 
   /// display the drawn buffer to the output
-  virtual void present(const Canvas& canvas) const override;
+  virtual void present() const override;
 
+  virtual Canvas* get_canvas() override;
 
   /// pause
   /// TODO: introduce a new param to accept the idling duration

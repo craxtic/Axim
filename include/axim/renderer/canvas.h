@@ -30,14 +30,12 @@ class AXIM_RENDERER_API Canvas {
   std::vector<u16> indices;
 
 public:
-  float width, height;
+  u32 width, height;
   Color bg_color;
 
-  Canvas(float width, float height, Color fill)
-  : width(width), height(height), bg_color(fill)
-  {}
+  Canvas(u32 width, u32 height, Color fill);
 
-
+  void reset(u32 width, u32 height);
   
   [[nodiscard]] inline const std::vector<Vertex>& get_vertices() const {
     return vertices;

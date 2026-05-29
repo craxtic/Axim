@@ -6,9 +6,9 @@ end
 
 local r1 = R(50, 50, 50)
 
-
+-- add(r1)
 play(Shift(r1, vec2f(200, 0), 1))
-play(Shift(r1, vec2f(0, 200), 1))
-play(Shift(r1, vec2f(200, 200), 1))
-play(Shift(r1, vec2f(-300, -300), 1))
+-- play(Shift(r1, vec2f(0, 200), 1))
+-- play(Shift(r1, vec2f(200, 200), 1))
+-- play(Shift(r1, vec2f(-300, -300), 1))
 

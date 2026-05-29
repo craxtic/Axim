@@ -36,3 +36,10 @@
 - [ ] `Circle` : `Arc`
 - [ ] `SVG` : `VMobject`
 - [ ] `Text` :  `SVG`
+
+
+## Renderer
+- [ ] make the Renderer listen to the Canvas
+  Canvas should be the one who decides width, height, bg_color, ...
+- [ ] refine the interation between classes
+  must be clear, clean and maintainable.

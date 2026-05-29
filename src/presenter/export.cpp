@@ -53,13 +53,18 @@ ExportPresenter::ExportPresenter(vec2i dimensions, std::string_view output_filen
 
 }
 
-void ExportPresenter::clear(Color color){
+void ExportPresenter::clear(){
   
 }
 
 
+Canvas* ExportPresenter::get_canvas() {
+
+}
+
+
 /// display the drawn buffer to the output
-void ExportPresenter::present(const Canvas& canvas) const {
+void ExportPresenter::present() const {
   
 }
 

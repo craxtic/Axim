@@ -24,15 +24,16 @@ namespace axm {
 struct Vertex {
   vec3f pos;
   Color color;
+  float w;
 
-  Vertex(vec2f pos2d, Color color):
+  Vertex(vec2f pos2d, Color color, float w):
     pos(pos2d.x, pos2d.y, 0),
-    color(color)
+    color(color), w(w)
   {}
 
-  Vertex(const vec3f& pos, Color color):
+  Vertex(const vec3f& pos, Color color, float w):
     pos(pos),
-    color(color)
+    color(color), w(w)
   {}
  
 };

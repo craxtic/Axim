@@ -41,7 +41,7 @@ class AXIM_ENGINE_API Scene final {
 
 
 public:
-  Scene(u8 frame_rate, Canvas* canvas, PresenterInterface *presenter);
+  Scene(u8 frame_rate, PresenterInterface *presenter);
 
   ~Scene();
 
