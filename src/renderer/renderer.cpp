@@ -31,8 +31,8 @@ static const bgfx::VertexLayout vertex_layout =
     bgfx::VertexLayout()
         .begin()
         .add(bgfx::Attrib::Position, 3, bgfx::AttribType::Float)
-        .add(bgfx::Attrib::Color0, 4, bgfx::AttribType::Uint8, true)
-        .add(bgfx::Attrib::TexCoord0, 1, bgfx::AttribType::Float);
+        .add(bgfx::Attrib::Color0, 4, bgfx::AttribType::Uint8, true);
+        // .add(bgfx::Attrib::TexCoord0, 1, bgfx::AttribType::Float);
   ;
 
 
@@ -87,7 +87,7 @@ void Renderer::reset(u32 width, u32 height) {
 }
 
 void Renderer::submit(const std::vector<Vertex> &vertices,
-                      const std::vector<u16> &indices) {
+                      const std::vector<u16> &indices, ShaderType::Enum sh_type) {
   if (vertices.empty())
     return;
 
@@ -106,8 +106,8 @@ void Renderer::submit(const std::vector<Vertex> &vertices,
   bgfx::setVertexBuffer(0, &tvb);
   bgfx::setIndexBuffer(&tib);
   bgfx::setState(BGFX_STATE_BLEND_ALPHA |
-                 BGFX_STATE_DEFAULT & ~BGFX_STATE_CULL_MASK);
-  bgfx::submit(0, shader->programs->curve);
+                 BGFX_STATE_WRITE_A | BGFX_STATE_WRITE_RGB & ~BGFX_STATE_CULL_MASK);
+  bgfx::submit(0, shader->programs->handles[sh_type]);
   return;
 }
 

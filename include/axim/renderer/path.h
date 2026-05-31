@@ -33,14 +33,14 @@ struct Pen {
 class AXIM_RENDERER_API BezierPath {
 
 public:
-  std::vector<vec2f> points;
+  std::vector<vec3f> points;
 
   BezierPath();
 
-  void move_to(vec2f p);
-  void line_to(vec2f p);
-  void cubic_to(vec2f c1, vec2f c2, vec2f p);
-  void curve_to(vec2f p);
+  void move_to(vec3f p);
+  void line_to(vec3f p);
+  void cubic_to(vec3f c1, vec3f c2, vec3f p);
+  void curve_to(vec3f p);
 
   void close();
   void reset();

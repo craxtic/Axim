@@ -1,4 +1,4 @@
-$input v_uvw, v_color0
+$input v_uvw, v_color0, v_k
 
 #include <bgfx_shader.sh>
 
@@ -7,21 +7,22 @@ void main() {
   float v = v_uvw.y;
   float w = v_uvw.z;
 
+  float ft = min(min(u, v), w) + 0.007;
+  float fs = w * (u*u - v);
 
-  float f = ((u * u) - v) * w;
+  float f = (1 - v_k) * ft  +  v_k * fs;
 
-  float dudx = dFdx(u);
-  float dvdx = dFdx(v);
-  float dudy = dFdy(u);
-  float dvdy = dFdy(v);
-  float dfdx = (2.0 * u * dudx - dvdx) * w;
-  float dfdy = (2.0 * u * dudy - dvdy) * w;
+  float dfdx = dFdx(f);
+  float dfdy = dFdy(f);
 
+  //float dfdx = (2.0 * u * dFdx(u) - dFdx(v));
+  //float dfdy = (2.0 * u * dFdy(u) - dFdy(v));
 
   float inv_grad = inversesqrt(dfdx * dfdx + dfdy * dfdy + 0.000001);
   float pixel_distance = f * inv_grad;
+  //float alpha = clamp(pixel_distance, 0.0, 1.0);
 
-  float alpha = clamp(0.5 - pixel_distance , 0.0, 1.0);
-  
+  float alpha = smoothstep(-0.5, 0.5, pixel_distance);
+
   gl_FragColor = vec4(v_color0.rgb, v_color0.a * alpha);
 }

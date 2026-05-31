@@ -21,19 +21,21 @@ BezierPath::BezierPath(){
   
 }
 
-void BezierPath::move_to(vec2f p){
+void BezierPath::move_to(vec3f p){
   // this->points.
 }
 
-void BezierPath::line_to(vec2f p){
+void BezierPath::line_to(vec3f p){
 
 }
 
-void BezierPath::cubic_to(vec2f c1, vec2f c2, vec2f p){
+void BezierPath::cubic_to(vec3f c1, vec3f c2, vec3f p){
+
+  
 
 }
 
-void BezierPath::curve_to(vec2f p){
+void BezierPath::curve_to(vec3f p){
 
 }
 

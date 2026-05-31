@@ -43,11 +43,9 @@ void Scene::render_frame() const {
   this->presenter->clear();
   
   for (const Mobject *mobject : this->mobjects) {
-    // canvas->draw_path(mobject->get_path(), mobject->get_brush());
+    canvas->draw_path(mobject->get_path(), mobject->get_brush());
   }
 
-  canvas->draw_quadratic_bezier_stroke({-0.5, -0.5}, {0.5, -0.5}, {0.0, 0.5}, 0.02, Color::Yellow);
-  
   this->presenter->present();
   return;
 }

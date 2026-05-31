@@ -21,12 +21,17 @@
 #define AXIM_SHADERS_DIR ""
 #endif
 
-#define AXIM_SHADER_TRIANGLE_BINPATH "triangle.fr"
 
 namespace axm {
 
 struct ShaderPrograms;
 
+struct ShaderType {
+  enum Enum{
+    Triangle,
+    Curve,
+  };
+};
 
 
 class AXIM_RENDERER_API Shader {
@@ -35,6 +40,7 @@ public:
   ShaderPrograms *programs;
 
   Shader();
+  
 
   void load_builtin_shaders();
   void destroy();

@@ -14,6 +14,7 @@
 
 #include "axim/renderer/canvas.h"
 #include "axim/renderer/renderer.h"
+#include "axim/renderer/shader.h"
 #include <SDL3/SDL_events.h>
 #include <SDL3/SDL_platform.h>
 #include <SDL3/SDL_properties.h>
@@ -95,7 +96,7 @@ void PreviewPresenter::clear() {
 
 
 void PreviewPresenter::present() const {
-  this->renderer->submit(canvas->get_vertices(), canvas->get_indices());
+  this->renderer->submit(canvas->get_vertices(), canvas->get_indices(), ShaderType::Curve);
   this->renderer->present();
 }
   
