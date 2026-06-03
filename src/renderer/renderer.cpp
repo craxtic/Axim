@@ -31,8 +31,8 @@ static const bgfx::VertexLayout vertex_layout =
     bgfx::VertexLayout()
         .begin()
         .add(bgfx::Attrib::Position, 3, bgfx::AttribType::Float)
-        .add(bgfx::Attrib::Color0, 4, bgfx::AttribType::Uint8, true);
-        // .add(bgfx::Attrib::TexCoord0, 1, bgfx::AttribType::Float);
+        .add(bgfx::Attrib::Color0, 4, bgfx::AttribType::Uint8, true)
+        .add(bgfx::Attrib::TexCoord0, 1, bgfx::AttribType::Float);
   ;
 
 

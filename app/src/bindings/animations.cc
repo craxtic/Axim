@@ -13,6 +13,7 @@
 
 // #include "bindings/animations.hh"
 #include <axim/engine/animations/shift.h>
+#include "axim/core/types/vector3.h"
 #include "binding.hh"
 
 using namespace axm;
@@ -20,7 +21,7 @@ using namespace axm;
 extern "C" {
 
 AXIM_API_EXPORT Animation* axm_Shift(Mobject *target, vec2f delta, float run_time){
-  return storage::construct<Shift>(*target, delta, run_time);
+  return storage::construct<Shift>(*target, vec3f(delta.x, delta.y, 0), run_time);
 }
 
 }

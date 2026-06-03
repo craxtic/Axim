@@ -13,7 +13,7 @@
 
 #pragma once
 
-#include <axim/core/types/vector2.h>
+#include <axim/core/types/vector3.h>
 #include <axim/engine/mobjects/vmobject.h>
 
 namespace axm {
@@ -23,7 +23,7 @@ class AXIM_ENGINE_API Rect : public VMobject {
 public:
   Rect() = default;
 
-  Rect(vec2f p1, vec2f p2, Color fill_color = Color::White);
+  Rect(vec3f p1, vec3f p2, Color fill_color = Color::White);
 
   /// TODO: implement a full version of copy
   [[nodiscard]] Mobject *copy(bool should_clone) const override;

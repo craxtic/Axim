@@ -24,16 +24,18 @@ namespace axm {
 struct Vertex {
   vec3f pos;
   Color color;
+  float w;
 
 
-  Vertex(const vec3f& pos, Color color, u8 w, u8 local_index):
+  Vertex(const vec3f& pos, Color color, float w, u8 local_index):
     pos(pos),
     color(
       color.r,
       color.g,
-      (color.b & 0b11111100) | w,
+      color.b,
       (color.a & 0b11111100) | local_index
-    )
+    ),
+    w(w)
   {
     // we sacrifice
     //  2 bit of color.b for flag w

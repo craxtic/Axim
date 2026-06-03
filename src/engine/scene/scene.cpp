@@ -11,8 +11,10 @@
  * file, You can obtain one at https://mozilla.org.
  */
 
-#include "axim/presenter/window.h"
-#include "axim/renderer/canvas.h"
+#include <axim/core/conicsegment.h>
+#include <axim/core/conicsegment.h>
+#include <axim/presenter/window.h>
+#include <axim/renderer/canvas.h>
 #include <axim/presenter/presenter.h>
 #include <axim/utils/utils.h>
 #include <axim/engine/mobjects/mobject.h>
@@ -23,6 +25,7 @@
 
 #include <chrono>
 #include <iostream>
+#include <span>
 
 namespace axm {
 
@@ -42,8 +45,8 @@ Scene::Scene(u8 frame_rate, PresenterInterface* presenter)
 void Scene::render_frame() const {
   this->presenter->clear();
   
-  for (const Mobject *mobject : this->mobjects) {
-    canvas->draw_path(mobject->get_path(), mobject->get_brush());
+  for (const Mobject* mobject : this->mobjects) {
+    canvas->draw(std::span<ConicSegment>(&(*mobject)[0], mobject->get_concount()), mobject->get_brush());
   }
 
   this->presenter->present();
@@ -79,6 +82,7 @@ void Scene::play(Animation &animation) {
   float run_time = animation.get_run_time();
   float elapsed_time = 0.0f;
   auto start_time = std::chrono::steady_clock::now();
+
 
   while (elapsed_time < run_time) {
     auto current_time = std::chrono::steady_clock::now();

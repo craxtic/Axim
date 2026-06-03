@@ -16,16 +16,17 @@
 #include <vector>
 
 #include <axim/config.h>
+#include <axim/core/conicsegment.h>
 #include <axim/core/types/vector3.h>
 #include <axim/core/types/ctype.h>
-#include <axim/renderer/path.h>
+#include <axim/renderer/paint.h>
 
 namespace axm::mobcloud {
 
 class MobjectCloud {
 
 public:
-  std::vector<vec3f> points;
+  std::vector<ConicSegment> conics;
   std::vector<Brush> brushes;
   std::vector<Pen> pens;
 
@@ -33,17 +34,14 @@ public:
 
   MobjectCloud(size_t init_mobcount, size_t std_pocount);
 
-  
 
-  
- 
 };
 
 
 extern MobjectCloud *const mobject_cloud;
 
-inline u32 new_poindex(){
-  return mobject_cloud->points.size();
+inline u32 new_conindex(){
+  return mobject_cloud->conics.size();
 }
 
 inline u16 init_new_brush(){
@@ -55,12 +53,12 @@ inline Brush &get_brush_at(u16 paindex){
   return mobject_cloud->brushes[paindex];
 }
 
-inline vec3f &get_point_at(u32 poindex){
-  return mobject_cloud->points[poindex];
+inline ConicSegment &get_conic_at(u32 conindex){
+  return mobject_cloud->conics[conindex];
 }
 
-inline void push_point(const vec3f &point) {
-  mobject_cloud->points.emplace_back(point.x, point.y, point.z);
+inline void push_conic(const vec3f &p0, const vec3f& p1, const vec3f& p2, float w1) {
+  mobject_cloud->conics.emplace_back(p0, p1, p2, w1);
 } 
 
 

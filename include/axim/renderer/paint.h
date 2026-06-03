@@ -11,16 +11,20 @@
  * file, You can obtain one at https://mozilla.org.
  */
 
-#include <axim/engine/mobjects/mobcloud.h>
+#pragma once
+
 #include <axim/core/types/color.h>
 
-namespace axm::mobcloud {
+namespace axm {
 
-MobjectCloud::MobjectCloud(size_t init_mobcount, size_t std_pocount) {
+struct Brush {
+  Color color;
+};
 
-  this->conics.reserve(init_mobcount * std_pocount);
-  this->brushes.reserve(init_mobcount);
+struct Pen {
+  Color color;
+  float stroke_width;
+};
+
 
 }
-
-} // namespace axm

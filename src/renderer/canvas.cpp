@@ -11,10 +11,12 @@
  * file, You can obtain one at https://mozilla.org.
  */
 
+#include "axim/core/types/color.h"
 #include "axim/core/types/ctype.h"
 #include "axim/core/types/vector2.h"
 #include "axim/core/types/vector3.h"
-#include <axim/core/beziercurve.h>
+#include <array>
+#include <axim/core/conicsegment.h>
 #include <axim/renderer/canvas.h>
 #include <cmath>
 #include <cstddef>
@@ -35,33 +37,43 @@ void Canvas::reset(u32 width, u32 height) {
 void Canvas::clear() {
   this->vertices.clear();
   this->indices.clear();
+  this->interior_vert.clear();
+  this->interior_indi.clear();
 }
 
 
-void Canvas::draw_path(const BezierPath &path, const Brush &brush) {
+void Canvas::draw(const std::span<const ConicSegment>& segments, const Brush& brush) {
 
-  const std::vector<vec3f> &points = path.points;
-  size_t len = path.points.size();
-  Color color = brush.color;
 
-  for(int i = 0; i < len/2 + 3; i += 2){
-    vertices.push_back({points[0+i], color, 1, 0});
-    vertices.push_back({points[1+i], color, 1, 1});
-    vertices.push_back({points[2+i], color, 1, 2});
+  if(segments.size() == 0) return;
+
+
+  for(int i = 0; i < segments.size(); ++i){
+    size_t base_i = vertices.size();
+    vertices.push_back({segments[i].p0, Color::White, 1, 0});
+    vertices.push_back({segments[i].p1, Color::White, segments[i].w1, 1});
+    vertices.push_back({segments[i].p2, Color::White, 1, 2});
+
+    indices.push_back(base_i + 0);
+    indices.push_back(base_i + 1);
+    indices.push_back(base_i + 2);
   } 
 
-  for(int i = 0; i < len / 2; i += 2){
-    vertices.push_back({points[0], color, 0, 0});
-    vertices.push_back({points[2+i], color, 0, 1});
-    vertices.push_back({points[4+i], color, 0, 2});
-  }
+  for(int i = 0; i < segments.size() / 2; ++i){
+    size_t base_i = interior_vert.size();
+    interior_vert.push_back({segments[0].p0, Color::White, 1, 0});
+    interior_vert.push_back({segments[i].p2, Color::White, 1, 1});
+    interior_vert.push_back({segments[i+1].p2, Color::White, 1, 2});
 
-  for(int i = 0; i < vertices.size(); i++){
-    indices.push_back(i);
-  }
+    interior_indi.push_back(base_i + 0);
+    interior_indi.push_back(base_i + 1);
+    interior_indi.push_back(base_i + 2);
+  } 
+
+  // std::cout << "s1: " << vertices.size() << std::endl;
 
 }
 
-void Canvas::draw_path(const BezierPath &path, const Pen &pen) const {}
+void Canvas::draw(const std::span<const ConicSegment>& segments, const Pen &pen) const {}
 
 } // namespace axm

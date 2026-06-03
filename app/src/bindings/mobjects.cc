@@ -13,6 +13,7 @@
 
 #include <axim/engine/mobjects/rect.h>
 
+#include "axim/core/types/vector3.h"
 #include "binding.hh"
 // #include "bindings/mobjects.hh"
 
@@ -20,8 +21,10 @@ using namespace axm;
 
 extern "C" {
 
-AXIM_API_EXPORT Mobject* axm_Rect(vec2f a, vec2f b){
-  return storage::construct<axm::Rect>(a, b);
+AXIM_API_EXPORT Mobject* axm_Rect(vec2f a, vec2f b){  
+  vec3f m = {a.x, a.y, 0};
+  vec3f n = {b.x, b.y, 0};
+  return storage::construct<axm::Rect>(m, n);
 }
 
 }

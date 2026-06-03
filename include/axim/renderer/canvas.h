@@ -13,11 +13,13 @@
 
 #pragma once
 
+#include "axim/core/conicsegment.h"
 #include "axim/core/types/ctype.h"
-#include "axim/renderer/path.h"
+#include "axim/renderer/paint.h"
 #include <axim/config.h>
 #include <axim/core/types/vector2.h>
 #include <axim/renderer/vertex.h>
+#include <vector>
 
 
 namespace axm {
@@ -26,10 +28,13 @@ namespace axm {
 
 class AXIM_RENDERER_API Canvas {
 
+public:
   std::vector<Vertex> vertices;
   std::vector<u16> indices;
 
-public:
+  std::vector<Vertex> interior_vert;
+  std::vector<u16> interior_indi;
+
   u32 width, height;
   Color bg_color;
 
@@ -46,8 +51,8 @@ public:
   }
   
   void clear();
-  void draw_path(const BezierPath& path, const Brush& brush);
-  void draw_path(const BezierPath& path, const Pen& pen) const;
+  void draw(const std::span<const ConicSegment>& segments, const Brush& brush);
+  void draw(const std::span<const ConicSegment>& segments, const Pen& pen) const;
 
 
 };

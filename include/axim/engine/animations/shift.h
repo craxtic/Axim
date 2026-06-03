@@ -19,10 +19,10 @@
 namespace axm {
 
 class AXIM_ENGINE_API Shift : public Animation {
-  vec2f delta;
+  vec3f delta;
 
 public:
-  Shift(Mobject &target, vec2f delta, float run_time = 1.f);
+  Shift(Mobject &target, vec3f delta, float run_time = 1.f);
 
 
   virtual constexpr void interpolate(float alpha) override;

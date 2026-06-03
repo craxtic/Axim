@@ -97,6 +97,7 @@ void PreviewPresenter::clear() {
 
 void PreviewPresenter::present() const {
   this->renderer->submit(canvas->get_vertices(), canvas->get_indices(), ShaderType::Curve);
+  this->renderer->submit(canvas->interior_vert, canvas->interior_indi, ShaderType::Triangle);
   this->renderer->present();
 }
   

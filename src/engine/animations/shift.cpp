@@ -17,7 +17,7 @@
 namespace axm {
 
   /// (10, -22)
-Shift::Shift(Mobject &target, vec2f delta, float run_time)
+Shift::Shift(Mobject &target, vec3f delta, float run_time)
     : Animation(target, run_time), delta(delta)
 {
 }
@@ -32,9 +32,10 @@ constexpr void Shift::interpolate(float alpha) {
   alpha = t * t * t * (t * (t * 6.0f - 15.0f) + 10.0f);
 
     
-  for(int i = 0; i < this->mobject.get_pocount(); i++){
-    this->mobject[i].x = begin_state[i].x + delta.x * alpha;
-    this->mobject[i].y = begin_state[i].y + delta.y * alpha;
+  for(int i = 0; i < this->mobject.get_concount(); ++i){
+    this->mobject[i].p0 = begin_state[i].p0 + delta * alpha;
+    this->mobject[i].p1 = begin_state[i].p1 + delta * alpha;
+    this->mobject[i].p2 = begin_state[i].p2 + delta * alpha;
   }
 
 }

@@ -13,12 +13,12 @@
 
 #include <axim/engine/mobjects/mobcloud.h>
 #include <axim/engine/mobjects/mobject.h>
-#include <axim/renderer/path.h>
+#include <axim/renderer/paint.h>
 
 namespace axm {
 
 Mobject::Mobject(Color color, float z_index)
-    : poindex(mobcloud::new_poindex()), z_index(z_index) {
+    : conindex(mobcloud::new_conindex()), z_index(z_index) {
   
   this->paindex = mobcloud::init_new_brush();
   Brush &brush = mobcloud::get_brush_at(this->paindex);
@@ -26,6 +26,17 @@ Mobject::Mobject(Color color, float z_index)
 
   /// TODO: handle z_index initialization
 }
+
+void Mobject::init_conic_segments(u16 concount){
+
+  this->concount = concount;
+
+  vec3f zero(0, 0, 0);
+  for(int i = 0; i < concount; ++i){
+    mobcloud::push_conic(zero, zero, zero, 0);
+  }
+}
+
 
 Mobject::~Mobject() {
   

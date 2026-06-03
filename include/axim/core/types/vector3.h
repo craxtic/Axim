@@ -48,6 +48,15 @@ template <typename T> struct vec3 {
   }
 
 
+  /**
+   * @brief set all x, y, z components to 0
+   * 
+   */
+  constexpr void to_zero(){
+    x = 0;
+    y = 0;
+    z = 0;
+  }
 
   [[nodiscard]] constexpr operator vec2f() const {
     return vec2f(x, y);

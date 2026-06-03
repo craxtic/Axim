@@ -11,45 +11,40 @@
  * file, You can obtain one at https://mozilla.org.
  */
 
+#include "axim/renderer/path.h"
+#include <axim/core/conicsegment.h>
 #include <axim/engine/mobjects/rect.h>
 #include <axim/engine/mobjects/mobcloud.h>
+#include <iostream>
 
 
 namespace axm {
 
-Rect::Rect(vec2f p1, vec2f p2, Color fill_color) : VMobject(fill_color) {
-  this->set_pocount(16);
+Rect::Rect(vec3f p1, vec3f p2, Color fill_color) : VMobject(fill_color) {
+  
+  this->init_conic_segments(4);  
+  ConicPathBuilder path(get_conic_segments());
 
-  this->push_cubic_points(
-    {p1.x, p1.y, 0},
-    {p1.x, p1.y, 0},
-    {p2.x, p1.y, 0},
-    {p2.x, p1.y, 0}
-  );
-  this->push_cubic_points(
-    {p2.x, p1.y, 0},
-    {p2.x, p1.y, 0},
-    {p2.x, p2.y, 0},
-    {p2.x, p2.y, 0}
-  );
-  this->push_cubic_points(
-    {p2.x, p2.y, 0},
-    {p2.x, p2.y, 0},
-    {p1.x, p2.y, 0},
-    {p1.x, p2.y, 0}
-  );
-  // this->push_cubic_points(
-  //   {p1.x, p2.y, 0},
-  //   {p1.x, p2.y, 0},
-  //   {p1.x, p1.y, 0},
-  //   {p1.x, p1.y, 0}
-  // );
-  this->push_cubic_points(
-    {p1.x, p2.y, 0},
-    {p1.x, p2.y, 0},
-    {p1.x, p1.y, 0},
-    {p1.x, p1.y, 0}
-  );
+  for(auto seg : path.segments){
+    std::cout << seg.p0 << std::endl;
+    std::cout << seg.p1 << std::endl;
+    std::cout << seg.p2 << std::endl;
+  }
+
+  std::cout << "---\n";
+  
+  path.move_to(p1);
+  path.line_to({p2.x, p1.y, 0});
+  path.line_to({p2.x, p2.y, 0});
+  path.line_to({p1.x, p2.y, 0});
+  // path.line_to({p1.x, p1.y, 0});
+  path.close();
+
+  for(auto seg : path.segments){
+    std::cout << seg.p0 << std::endl;
+    std::cout << seg.p1 << std::endl;
+    std::cout << seg.p2 << std::endl;
+  }
 
   return;
 }
@@ -58,19 +53,20 @@ Rect::Rect(vec2f p1, vec2f p2, Color fill_color) : VMobject(fill_color) {
     Rect *_Rect = new Rect();
 
     if(!should_clone){
-      _Rect->poindex = this->get_poindex();
-      _Rect->pocount = this->get_pocount();
+      _Rect->conindex = this->get_conindex();
+      _Rect->concount = this->get_concount();
       _Rect->paindex = this->get_paindex();
       return _Rect;
     }
 
-    _Rect->pocount = this->get_pocount();
-    _Rect->poindex = mobcloud::new_poindex();
+    _Rect->concount = this->get_concount();
+    _Rect->conindex = mobcloud::new_conindex();
     _Rect->paindex = mobcloud::push_paint(this->get_brush());
 
-    for(int i = 0; i < _Rect->get_pocount(); i++)
-      _Rect->push_point((*this)[i]);
-
+    for(int i = 0; i < _Rect->get_concount(); i++) {
+      const ConicSegment& conic = (*this)[i];
+      mobcloud::push_conic(conic.p0, conic.p1, conic.p2, conic.w1);
+    }  
     return _Rect;
   }
 

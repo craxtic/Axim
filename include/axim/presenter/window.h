@@ -18,6 +18,7 @@
 
 #include <SDL3/SDL_video.h>
 
+#include <axim/renderer/renderer.h>
 
 namespace axm {
 

@@ -13,7 +13,6 @@
 
 #pragma once
 
-#include "axim/renderer/path.h"
 #include <axim/engine/mobjects/mobject.h>
 
 namespace axm {
@@ -25,7 +24,6 @@ public:
 
   VMobject(Color fill_color);
 
-  [[nodiscard]] BezierPath get_path() const override;
 };
 
 } // namespace axm
