@@ -62,6 +62,8 @@ inline struct SilentCallback : public bgfx::CallbackI {
     UNUSED(_data);
     UNUSED(_size);
     UNUSED(_yflip);
+    UNUSED(_format);
+    
   }
   virtual void captureBegin(uint32_t _width, uint32_t _height, uint32_t _pitch,
                             bgfx::TextureFormat::Enum _format,

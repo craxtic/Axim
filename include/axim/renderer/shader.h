@@ -15,7 +15,6 @@
 
 #include <axim/config.h>
 #include <filesystem>
-#include <string_view>
 
 #ifndef AXIM_SHADERS_DIR
 #define AXIM_SHADERS_DIR ""
@@ -37,17 +36,41 @@ struct ShaderType {
 class AXIM_RENDERER_API Shader {
 
 public:
-  ShaderPrograms *programs;
 
+  /**
+   * @brief Construct a new Shader object
+   * 
+   */
   Shader();
-  
 
-  void load_builtin_shaders();
+  /**
+   * @brief Load all builtin shader programs
+   * 
+   */
+  void 
+  load_builtin_shaders();
+  
+  /**
+   * @brief Destroy all shader programs
+   * 
+   */
   void destroy();
 
 
+  /**
+   * @brief Get the programs object
+   * 
+   * @return ShaderPrograms* 
+   *
+   * @note ShaderPrograms is a struct of bgfx::ProgramHandler
+   */
+  ShaderPrograms* 
+  get_programs(){
+    return programs;
+  }
+
 private:
-  
+  ShaderPrograms *programs; 
 };
 
 } // namespace axm

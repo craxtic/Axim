@@ -26,5 +26,4 @@ struct Pen {
   float stroke_width;
 };
 
-
-}
+} // namespace axm

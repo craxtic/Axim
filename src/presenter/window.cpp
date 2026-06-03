@@ -97,7 +97,7 @@ void PreviewPresenter::clear() {
 
 void PreviewPresenter::present() const {
   this->renderer->submit(canvas->get_vertices(), canvas->get_indices(), ShaderType::Curve);
-  this->renderer->submit(canvas->interior_vert, canvas->interior_indi, ShaderType::Triangle);
+  this->renderer->submit(canvas->get_interior_vert(), canvas->get_interior_indi(), ShaderType::Triangle);
   this->renderer->present();
 }
   
@@ -131,7 +131,7 @@ void PreviewPresenter::idle(int duration, bool *running) const {
         std::cout << "get resized" << std::endl;
         int w, h;
         SDL_GetWindowSizeInPixels(this->window, &w, &h);
-        canvas->reset(w, h);
+        canvas->reset_size(w, h);
         renderer->reset(w, h);
         // renderer->clear(canvas->bg_color);
         this->present();

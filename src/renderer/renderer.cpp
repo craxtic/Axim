@@ -11,7 +11,7 @@
  * file, You can obtain one at https://mozilla.org.
  */
 
-#include "axim/renderer/shader.h"
+#include <axim/renderer/shader.h>
 #include <axim/renderer/renderer.h>
 #include <axim/renderer/vertex.h>
 #include <bgfx/bgfx.h>
@@ -20,38 +20,40 @@
 #include <cstddef>
 #include <cstdio>
 #include <cstring>
-#include <fstream>
-#include <iostream>
 
 #include <axim-internal/bgfx_callback.h>
 #include <axim-internal/renderer_cloud.h>
 #include <axim-internal/shader_prog_def.h>
 
-static const bgfx::VertexLayout vertex_layout =
-    bgfx::VertexLayout()
-        .begin()
-        .add(bgfx::Attrib::Position, 3, bgfx::AttribType::Float)
-        .add(bgfx::Attrib::Color0, 4, bgfx::AttribType::Uint8, true)
-        .add(bgfx::Attrib::TexCoord0, 1, bgfx::AttribType::Float);
-  ;
-
-
 #define BGFX_RESET_OPTIONS (BGFX_RESET_VSYNC)
+
+
+static const bgfx::VertexLayout vertex_layout = bgfx::VertexLayout()
+  .begin()
+  .add(bgfx::Attrib::Position, 3, bgfx::AttribType::Float)
+  .add(bgfx::Attrib::Color0, 4, bgfx::AttribType::Uint8, true)
+  .add(bgfx::Attrib::TexCoord0, 1, bgfx::AttribType::Float);
+;
+
 
 namespace axm {
 
-Renderer::Renderer(u32 backbuffer_width, u32 backbuffer_height, void *nwh,
-                   void *ndt) {
+Renderer::Renderer(
+  u32 backbuffer_width, 
+  u32 backbuffer_height, 
+  void *nwh,
+  void *ndt
+){
 
   bgfx::Init init;
 
-#if defined(__linux)
-  init.type = bgfx::RendererType::Vulkan;
-#elif defined(_WIN32)
-  init.type = bgfx::RendererType::Direct3D11;
-#elif defined(__APPLE__)
-  init.type = bgfx::RendererType::Metal;
-#endif
+  #if defined(__linux)
+    init.type = bgfx::RendererType::Vulkan;
+  #elif defined(_WIN32)
+    init.type = bgfx::RendererType::Direct3D11;
+  #elif defined(__APPLE__)
+    init.type = bgfx::RendererType::Metal;
+  #endif
 
   init.platformData.ndt = ndt;
   init.platformData.nwh = nwh;
@@ -61,33 +63,61 @@ Renderer::Renderer(u32 backbuffer_width, u32 backbuffer_height, void *nwh,
   init.resolution.reset = BGFX_RESET_OPTIONS;
 
   init.callback = &silent_callback;
+
   bgfx::init(init);
 
   reset(backbuffer_width, backbuffer_height);
 
   this->shader = r_storage::construct<Shader>();
   this->shader->load_builtin_shaders();
+
+  return;
 }
 
-void Renderer::clear(Color color) {
+
+
+void Renderer::clear(
+  Color color
+){
+
   bgfx::setViewClear(0, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, color, 1.0f, 0);
   bgfx::touch(0);
 }
 
-void Renderer::reset(u32 width, u32 height) {
+
+
+void Renderer::reset(
+  u32 width, 
+  u32 height
+){
+
   bgfx::reset(width, height, BGFX_RESET_OPTIONS);
   bgfx::setViewRect(0, 0, 0, width, height);
 
   float proj[16];
   bx::mtxOrtho(
-    proj, 0.0f, (float)width, (float)height, 
-    0.0f, -1.0f, 1.0f, 0.0f,
-    bgfx::getCaps()->homogeneousDepth);
+    proj,
+    0.0f, 
+    (float)width, 
+    (float)height, 
+    0.0f, 
+    -1.0f, 
+    1.0f, 
+    0.0f,
+    bgfx::getCaps()->homogeneousDepth
+  );
   bgfx::setViewTransform(0, nullptr, proj);
+  return;
 }
 
-void Renderer::submit(const std::vector<Vertex> &vertices,
-                      const std::vector<u16> &indices, ShaderType::Enum sh_type) {
+
+
+void Renderer::submit(
+  const std::vector<Vertex> &vertices,
+  const std::vector<u16> &indices, 
+  const ShaderType::Enum sh_type
+){
+
   if (vertices.empty())
     return;
 
@@ -105,12 +135,21 @@ void Renderer::submit(const std::vector<Vertex> &vertices,
 
   bgfx::setVertexBuffer(0, &tvb);
   bgfx::setIndexBuffer(&tib);
-  bgfx::setState(BGFX_STATE_BLEND_ALPHA |
-                 BGFX_STATE_WRITE_A | BGFX_STATE_WRITE_RGB & ~BGFX_STATE_CULL_MASK);
-  bgfx::submit(0, shader->programs->handles[sh_type]);
+  bgfx::setState(
+    (BGFX_STATE_BLEND_ALPHA 
+    | BGFX_STATE_WRITE_A 
+    | BGFX_STATE_WRITE_RGB) 
+    & ~BGFX_STATE_CULL_MASK
+  );
+  bgfx::submit(0, shader->get_programs()->handles[sh_type]);
   return;
 }
 
-void Renderer::present() { bgfx::frame(); }
+
+void Renderer::present() { 
+  bgfx::frame(); 
+  return;
+}
+
 
 } // namespace axm

@@ -11,22 +11,17 @@
  * file, You can obtain one at https://mozilla.org.
  */
 
-#include "axim-internal/renderer_cloud.h"
-#include <axim/renderer/shader.h>
-
+#include <axim/renderer/shader.h> 
 #include <fstream>
 #include <bgfx/bgfx.h>
-
+ 
+#include <axim-internal/renderer_cloud.h>
 #include <axim-internal/shader_prog_def.h>
 
 namespace axm {
 
 
-#define REGISTER_SHADER_PROGRAM(name) 
-
-
 static bgfx::ShaderHandle create_shader_handle_from(const std::filesystem::path &path);
-
 
 
 Shader::Shader(){
@@ -45,11 +40,16 @@ void Shader::load_builtin_shaders(){
   vsh = create_shader_handle_from(AXIM_SHADERS_DIR "/curve.vert.bin");
   fsh = create_shader_handle_from(AXIM_SHADERS_DIR "/curve.frag.bin");
   programs->handles[ShaderType::Curve] = bgfx::createProgram(vsh, fsh, true);
+
+  return;
 }
+
+
 
 void Shader::destroy(){
   bgfx::destroy(programs->handles[ShaderType::Triangle]);
   bgfx::destroy(programs->handles[ShaderType::Curve]);
+  return;
 }
 
 
@@ -66,7 +66,6 @@ static bgfx::ShaderHandle create_shader_handle_from(const std::filesystem::path 
 
   const bgfx::Memory *memory = bgfx::alloc(size);
   file.seekg(0, std::ios::beg);
-
   file.read(reinterpret_cast<char *>(memory->data), size);
 
   return bgfx::createShader(memory);

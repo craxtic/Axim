@@ -25,7 +25,7 @@ Rect::Rect(vec3f p1, vec3f p2, Color fill_color) : VMobject(fill_color) {
   this->init_conic_segments(4);  
   ConicPathBuilder path(get_conic_segments());
 
-  for(auto seg : path.segments){
+  for(auto seg : path.get_segments()){
     std::cout << seg.p0 << std::endl;
     std::cout << seg.p1 << std::endl;
     std::cout << seg.p2 << std::endl;
@@ -40,7 +40,7 @@ Rect::Rect(vec3f p1, vec3f p2, Color fill_color) : VMobject(fill_color) {
   // path.line_to({p1.x, p1.y, 0});
   path.close();
 
-  for(auto seg : path.segments){
+  for(auto seg : path.get_segments()){
     std::cout << seg.p0 << std::endl;
     std::cout << seg.p1 << std::endl;
     std::cout << seg.p2 << std::endl;

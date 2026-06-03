@@ -18,10 +18,11 @@
 namespace axm {
 
 
-
 void ConicPathBuilder::move_to(const vec3f& dest_pos){
   this->cpos = dest_pos;
+  return;
 }
+
 
 void ConicPathBuilder::line_to(const vec3f& dest_pos){
   if(!advanceable()) return;
@@ -34,9 +35,8 @@ void ConicPathBuilder::line_to(const vec3f& dest_pos){
   this->segments[cidx].w1 = 0.0f;
 
   finish();
+  return;
 }
-
-
 
 
 void ConicPathBuilder::close(){
@@ -47,6 +47,8 @@ void ConicPathBuilder::close(){
   return;
 }
 
+
+
 void ConicPathBuilder::reset(){
   for (auto segement : segments) {
     segement.p0.to_zero();
@@ -54,6 +56,8 @@ void ConicPathBuilder::reset(){
     segement.p2.to_zero();
     segement.w1 = 0;
   }
+
+  return;
 }
 
 
