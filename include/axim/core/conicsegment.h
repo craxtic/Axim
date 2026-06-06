@@ -46,7 +46,12 @@ public:
   *
   * @note the end point weight w0 & w2 are fixed to 1.
   */ 
-  ConicSegment(const vec3f& p0, const vec3f& p1, const vec3f& p2, float w1):
+  ConicSegment(
+    const vec3f& p0, 
+    const vec3f& p1, 
+    const vec3f& p2, 
+    float w1
+  ):
     p0(p0),
     p1(p1),
     p2(p2), 

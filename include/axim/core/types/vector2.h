@@ -22,39 +22,62 @@ template <typename T> struct vec2 {
 
   T x{0}, y{0};
 
-  
   constexpr vec2() = default;
   
+  /**
+   * @brief Construct a new vec2 object
+   * 
+   * @param x component x 
+   * @param y component y
+   */
   constexpr vec2(T x, T y): x(x), y(y) {}
 
-  // /// vec[i]
-  // [[nodiscard]] constexpr T& operator[](int i) { return data[i]; }
-  // [[nodiscard]] constexpr const T& operator[](int i) const { return data[i]; }
 
 
-  /* \brief norm of vector |v| */
+  /**
+   * @brief norm or length of a vector
+   * 
+   * @return T 
+   */
   [[nodiscard]] constexpr T norm() const {
     return sqrt(x * x + y * y);
   }
 
-  /// square of vector's norm 
-  /// General property of Euclidean vector:  vector v^2 = norm |v|^2
+
+
+  /**
+   * @brief squared of vector's norm or length
+   * 
+   * General property of Euclidean vector: v^2 = ||v||^2
+   *
+   * @return T 
+   */
   [[nodiscard]] constexpr T squared() const{
     return x * x + y * y;
   }
 
 
-  /// return a normal (perpendicular) vector of this*
+
+  /**
+   * @brief The normal or perpendicular vector 
+   * 
+   * @return vec2 
+   */
   [[nodiscard]] constexpr vec2 normal() const{
     return vec2(-y, x);
   }
 
-  /// return a unit vector of this*
+
+
+  /**
+   * @brief The unit vector
+   * 
+   * @return vec2 
+   */
   [[nodiscard]] constexpr vec2 unit() const{
     T norm = this->norm();
     return  vec2(x/norm, y/norm);
   }
-
 
 
 

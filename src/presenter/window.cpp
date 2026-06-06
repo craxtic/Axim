@@ -28,9 +28,10 @@
 #include <axim/presenter/window.h>
 #include <axim/core/types/color.h>
 #include <axim/utils/errors.h>
-#include <functional>
 #include <iostream>
 
+
+#include <axim-internal/p_storage.h>
 
 
 // #include <iostream>
@@ -83,8 +84,8 @@ PreviewPresenter::PreviewPresenter(u32 width, u32 height, Color bg_color){
   SDL_GetWindowSizeInPixels(window, &w, &h);
   std::cout << width << "*" << height << std::endl;
   std::cout << w << "x" << h << std::endl;
-  this->renderer = new Renderer(w, h, nwh, ndt);
-  this->canvas = new Canvas(w, h, bg_color);
+  this->renderer = p_storage::construct<Renderer>(w, h, nwh, ndt);
+  this->canvas = p_storage::construct<Canvas>(w, h, bg_color);
 
   return;
 }
@@ -102,8 +103,7 @@ void PreviewPresenter::present() const {
 }
   
 PreviewPresenter::~PreviewPresenter(){
-  delete this->renderer;
-  delete this->canvas;
+  renderer->destroy();
   SDL_DestroyWindow(window);
 }
  

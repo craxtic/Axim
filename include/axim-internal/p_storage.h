@@ -15,13 +15,14 @@
 
 #include <axim/core/cloud.h>
 
-namespace axm::r_storage {
+namespace axm::p_storage {
 
-inline static Cloud r_cloud{1024};
+
+inline static Cloud p_cloud{1024};
 
 template<typename T, typename...Args>
 inline T* construct(Args&&...args){
-  return r_cloud.construct<T>(std::forward<Args>(args)...);
+  return p_cloud.construct<T>(std::forward<Args>(args)...);
 }
 
 }

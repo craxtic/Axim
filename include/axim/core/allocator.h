@@ -28,30 +28,89 @@ class AXIM_CORE_API Allocator {
 
 public:
 
+  /**
+   * @brief Construct a new Allocator object
+   * 
+   */
   Allocator() = default;
 
-  explicit Allocator(size_t capacity);
+  /**
+   * @brief Construct a new Allocator object
+   * 
+   * @param capacity 
+   */
+  explicit Allocator(
+    size_t capacity
+  );
 
   ~Allocator();
 
-  [[nodiscard]] void *allocate(size_t n, size_t alignment = alignof(max_align_t));
+  /**
+   * @brief allocate n bytes from the region
+   * 
+   * @param n number of bytes
+   * @param alignment memory aligment
+   * @return void* 
+   */
+  [[nodiscard]] void*
+  allocate(
+    size_t n, 
+    size_t alignment = alignof(max_align_t)
+  );
 
 
-  template<typename T>
-  inline T *allocate(size_t count){
+
+  /**
+   * @brief 
+   * 
+   * @tparam T any data type 
+   * @param count the array count
+   * @return T* 
+   */
+  template<typename T> inline T*
+  allocate(size_t count){
     return reinterpret_cast<T*>(allocate(sizeof(T) * count, alignof(T)));
   }
 
-  inline void reset(){
+
+  /**
+   * @brief reset the region back to the first starting address
+   * 
+   */
+  inline void 
+  reset(){
     current = begin;
   };
 
-  inline void clean(){
+
+  /**
+   * @brief set all bytes in the region to zero
+   * 
+   */
+  inline void 
+  clean(){
     std::memset(begin, 0, capacity());
   };
 
-  [[nodiscard]] inline size_t capacity(){
+
+  /**
+   * @brief returns the total capcity of the region
+   * 
+   * @return size_t 
+   */
+  [[nodiscard]] inline size_t 
+  capacity(){
     return (end - begin);
+  }
+
+  /**
+   * @brief returns the used size of the regions
+   * 
+   * @return size_t 
+   */
+  [[nodiscard]] inline size_t 
+  size(){
+    return (current - begin);
   }
 
 };

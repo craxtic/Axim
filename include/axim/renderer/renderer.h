@@ -68,6 +68,14 @@ public:
 
 
   /**
+   * @brief clean up resources
+   * 
+   */
+  void
+  destroy();
+
+
+  /**
    * @brief swap the double frame buffers
    *
    * simply call bgfx::frame();

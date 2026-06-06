@@ -16,19 +16,27 @@
 #include <axim/core/conicsegment.h>
 #include <axim/renderer/canvas.h>
 #include <cstddef>
+#include <cstdint>
+#include <cstdio>
+#include <iostream>
+#include <print>
 #include <vector>
+#include <limits>
 
 namespace axm {
 
-Canvas::Canvas(
-  u32 width, 
-  u32 height, 
-  Color fill
-): 
+Canvas::Canvas(u32 width, u32 height, Color fill): 
   width(width), 
   height(height), 
   bg_color(fill) 
-{}
+{
+
+  this->vertices.reserve(UINT16_MAX);
+  this->indices.reserve(UINT16_MAX);
+  this->interior_vert.reserve(UINT16_MAX);
+  this->interior_vert.reserve(UINT16_MAX);
+
+}
 
 
 void Canvas::clear() {
@@ -49,26 +57,29 @@ void Canvas::draw(
   if(segments.size() == 0) return;
 
   for(size_t i = 0; i < segments.size(); ++i){
+    if(segments[i].w1 == 0) continue;
     size_t base_i = vertices.size();
-    vertices.push_back({segments[i].p0, brush.color, 1, 0});
-    vertices.push_back({segments[i].p1, brush.color, segments[i].w1, 1});
-    vertices.push_back({segments[i].p2, brush.color, 1, 2});
+    vertices.emplace_back(segments[i].p0, brush.color, 1, 0);
+    vertices.emplace_back(segments[i].p1, brush.color, segments[i].w1, 1);
+    vertices.emplace_back(segments[i].p2, brush.color, 1, 2);
 
-    indices.push_back(base_i + 0);
-    indices.push_back(base_i + 1);
-    indices.push_back(base_i + 2);
+    indices.emplace_back(base_i + 0);
+    indices.emplace_back(base_i + 1);
+    indices.emplace_back(base_i + 2);
   } 
 
   for(size_t i = 0; i < segments.size() / 2; ++i){
     size_t base_i = interior_vert.size();
-    interior_vert.push_back({segments[0].p0, brush.color, 1, 0});
-    interior_vert.push_back({segments[i].p2, brush.color, 1, 1});
-    interior_vert.push_back({segments[i+1].p2, brush.color, 1, 2});
+    interior_vert.emplace_back(segments[0].p0, brush.color, 1, 0);
+    interior_vert.emplace_back(segments[i].p2, brush.color, 1, 1);
+    interior_vert.emplace_back(segments[i+1].p2, brush.color, 1, 2);
 
-    interior_indi.push_back(base_i + 0);
-    interior_indi.push_back(base_i + 1);
-    interior_indi.push_back(base_i + 2);
+    interior_indi.emplace_back(base_i + 0);
+    interior_indi.emplace_back(base_i + 1);
+    interior_indi.emplace_back(base_i + 2);
   } 
+
+  std::printf("size: v(%ld), i(%ld)\n", vertices.size(), interior_vert.size());
 
   return;
 }

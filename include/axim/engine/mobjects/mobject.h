@@ -27,44 +27,81 @@ namespace axm {
 /// Mathematical Object Class
 class AXIM_ENGINE_API Mobject {
 
-
 public:
   float z_index;
 
   Mobject() = default;
 
-  Mobject(Color color, float z_index = 0);
+  /**
+   * @brief Construct a new Mobject object
+   * 
+   * @param color fill color of the mobject
+   * @param z_index 
+   */
+  Mobject(
+    Color color, 
+    float z_index = 0
+  );
 
   virtual ~Mobject();
 
-  /// fetch the path of the mobject, (this can be raster version)
-  // [[nodiscard]] virtual ConicPathBuilder get_path() const = 0;
-
   /// copy the id and move to a new object
   /// reacllocate and clone the raw data if should_clone is true.
-  [[nodiscard]] virtual constexpr Mobject *copy(bool should_clone) const = 0;
+  
+  /**
+   * @brief create a copy of this mobject
+   * 
+   * A deep copy will be done if the should_clone is true.
+   *
+   * @param should_clone 
+   * @return Mobject* 
+   */
+  [[nodiscard]] virtual constexpr Mobject*
+  copy(
+    bool should_clone
+  ) const = 0;
 
   /// return the point at a givel local index
   [[nodiscard]] inline ConicSegment &operator[](u32 index) const {
     return mobcloud::get_conic_at(conindex + index);
   }
 
-  /// return the reference to the corresponding fillstyle object of this mobject
+
+  /**
+   * @brief Get the brush object
+   * 
+   * @return const Brush& 
+   */
   [[nodiscard]] inline const Brush &get_brush() const {
     return mobcloud::get_brush_at(paindex);
   }
 
-  /// return the global starting index to the points of this mobject
+
+  /**
+   * @brief Get the conindex object
+   * 
+   * @return u32 
+   */
   [[nodiscard]] inline constexpr u32 get_conindex() const {
     return conindex;
   }
 
-  /// return the point count of this mobject
+
+  /**
+   * @brief Get the concount object
+   * 
+   * @return constexpr u16 
+   */
   [[nodiscard]] inline constexpr u16 get_concount() const {
     return concount;
   }
 
-  /// return the global index to the corresponding paint object
+
+  /**
+   * @brief Get the paindex object
+   * 
+   * @return constexpr u16 
+   */
   [[nodiscard]] inline constexpr u16 get_paindex() const {
     return paindex;
   }

@@ -19,13 +19,33 @@
 namespace axm {
 
 class AXIM_ENGINE_API Shift : public Animation {
-  vec3f delta;
 
 public:
-  Shift(Mobject &target, vec3f delta, float run_time = 1.f);
+
+  /**
+   * @brief Construct a new Shift object
+   * 
+   * @param target mobject to animate
+   * @param delta delta position to move
+   * @param run_time_s run time in second
+   */
+  Shift(
+    Mobject &target, 
+    vec3f delta, 
+    float run_time_s = 1.f
+  );
 
 
-  virtual constexpr void interpolate(float alpha) override;
+  /**
+   * @brief interpolate the shifting animation
+   * 
+   * @param alpha 
+   */
+  constexpr void interpolate(float alpha) override;
+
+  
+private:
+  vec3f delta;
 
 };
 

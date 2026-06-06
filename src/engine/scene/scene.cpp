@@ -46,6 +46,7 @@ void Scene::render_frame() const {
   this->presenter->clear();
   
   for (const Mobject* mobject : this->mobjects) {
+    std::cout << "mobjects.size(): " << this->mobjects.size() << std::endl;
     canvas->draw(std::span<ConicSegment>(&(*mobject)[0], mobject->get_concount()), mobject->get_brush());
   }
 

@@ -24,6 +24,7 @@
 #include <axim-internal/bgfx_callback.h>
 #include <axim-internal/renderer_cloud.h>
 #include <axim-internal/shader_prog_def.h>
+#include <iostream>
 
 #define BGFX_RESET_OPTIONS (BGFX_RESET_VSYNC)
 
@@ -150,6 +151,15 @@ void Renderer::present() {
   bgfx::frame(); 
   return;
 }
+
+
+void Renderer::destroy(){
+
+  shader->destroy();
+  bgfx::shutdown();
+  std::cout << "used memory sized in render cloud: " << r_storage::r_cloud.allocator.size() << std::endl;
+}
+
 
 
 } // namespace axm

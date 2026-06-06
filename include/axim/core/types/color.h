@@ -19,10 +19,9 @@
 
 namespace axm {
 
-// template <typename T>
+
 struct Color {
 
-  // union {
   union {
     u32 rgba;
     struct {
@@ -32,25 +31,37 @@ struct Color {
 
   constexpr Color() = default;
 
+
+  /**
+   * @brief Construct a new Color object
+   * 
+   * @param r red channel
+   * @param g green channel
+   * @param b blue channel
+   * @param a alpha channel
+   */
   constexpr Color(u8 r, u8 g, u8 b, u8 a = 255);
 
+  
+  /**
+   * @brief Construct a new Color object
+   * 
+   * @param hex hexidecimal code of color 0xRRGGBBAA
+   */
   constexpr explicit Color(u32 hex);
 
-  // [[nodiscard]] constexpr u8 &operator[](int i) { return data[i]; }
-  // [[nodiscard]] constexpr const u8 &operator[](int i) const { return data[i];
-  // }
 
   [[nodiscard]] constexpr operator u32() const { return rgba; }
 
-  static const Color Black;       // Black predefined color
-  static const Color White;       // White predefined color
-  static const Color Red;         // Red predefined color
-  static const Color Green;       // Green predefined color
-  static const Color Blue;        // Blue predefined color
-  static const Color Yellow;      // Yellow predefined color
-  static const Color Magenta;     // Magenta predefined color
-  static const Color Cyan;        // Cyan predefined color
-  static const Color Transparent; // Transparent (black) predefined color
+  static const Color Black;       ///< Black predefined color
+  static const Color White;       ///< White predefined color
+  static const Color Red;         ///< Red predefined color
+  static const Color Green;       ///< Green predefined color
+  static const Color Blue;        ///< Blue predefined color
+  static const Color Yellow;      ///< Yellow predefined color
+  static const Color Magenta;     ///< Magenta predefined color
+  static const Color Cyan;        ///< Cyan predefined color
+  static const Color Transparent; ///< Transparent (black) predefined color
 };
 
 constexpr Color::Color(u8 r, u8 g, u8 b, u8 a) : r(r), g(g), b(b), a(a) {}
@@ -61,7 +72,15 @@ constexpr Color::Color(u32 hex)
       b(static_cast<u8>((hex & 0x0000ff00) >> 8)),
       a(static_cast<u8>((hex & 0x000000ff) >> 0)) {}
 
-/* Color() + Color() */
+
+
+/**
+ * @brief Adds each component of two colors
+ * 
+ * @param[in] x 
+ * @param[in] y 
+ * @return Color 
+ */
 [[nodiscard]] constexpr Color operator+(const Color &x, const Color &y) {
 
   const auto clamped_add = [](u8 a, u8 b) {
@@ -73,7 +92,15 @@ constexpr Color::Color(u32 hex)
                clamped_add(x.b, y.b), clamped_add(x.a, y.a));
 }
 
-/* Color() - Color() */
+
+
+/**
+ * @brief Substract each component of two vectors
+ * 
+ * @param x 
+ * @param y 
+ * @return Color 
+ */
 [[nodiscard]] constexpr Color operator-(const Color &x, const Color &y) {
 
   const auto clamped_substract = [](u8 a, u8 b) {
@@ -85,7 +112,14 @@ constexpr Color::Color(u32 hex)
                clamped_substract(x.b, y.b), clamped_substract(x.a, y.a));
 }
 
-/* Color() * Color() */
+
+/**
+ * @brief multiply each component of two vectors
+ * 
+ * @param x 
+ * @param y 
+ * @return Color 
+ */
 [[nodiscard]] constexpr Color operator*(const Color &x, const Color &y) {
 
   const auto scaled_multiply = [](u8 a, u8 b) {
@@ -97,15 +131,33 @@ constexpr Color::Color(u32 hex)
                scaled_multiply(x.b, y.b), scaled_multiply(x.a, y.a));
 }
 
-/* Color() == Color() */
+
+
+/**
+ * @brief Verify that the two vectors are element-wise equal
+ * 
+ * @param x 
+ * @param y 
+ * @return true 
+ * @return false 
+ */
 [[nodiscard]] constexpr bool operator==(const Color &x, const Color &y) {
   return (x.r == y.r) && (x.g == y.g) && (x.b == y.b) && (x.a == y.a);
 }
 
-/* Color() != Color() */
+
+/**
+ * @brief Verify that the two vectors are not element-wise equal
+ * 
+ * @param x 
+ * @param y 
+ * @return true 
+ * @return false 
+ */
 [[nodiscard]] constexpr bool operator!=(const Color &x, const Color &y) {
   return !(x == y);
 }
+
 
 /* Color() += Color() */
 constexpr Color &operator+=(Color &x, const Color &y) { return x = x + y; }
@@ -120,6 +172,7 @@ constexpr Color &operator*=(Color &x, const Color &y) { return x = x * y; }
 inline std::ostream &operator<<(std::ostream &stream, const Color &c) {
   return stream << '(' << c.r << ',' << c.g << ',' << c.b << ',' << c.a << ')';
 }
+
 
 inline constexpr Color Color::Black(0, 0, 0);
 inline constexpr Color Color::White(255, 255, 255);
